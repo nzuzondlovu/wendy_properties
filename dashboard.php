@@ -31,7 +31,7 @@ include 'header.php';
 			<div class="col-lg-9 col-md-9">
 				<?php
 
-				$sql = "SELECT * FROM tbl_prop WHERE ref='".$_SESSION['email']."'";
+				$sql = "SELECT * FROM tbl_prop";
 				$res = mysqli_query($con, $sql);
 
 				if (mysqli_num_rows($res) > 0) {
@@ -62,20 +62,7 @@ include 'header.php';
 						</td>
 						</tr>';
 						}echo '
-						</table>
-
-						<div class="pagination">
-						<div class="center">
-						<ul>
-						<li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
-						<li class="current"><a href="#" class="button small grey">1</a></li>
-						<li><a href="#" class="button small grey">2</a></li>
-						<li><a href="#" class="button small grey">3</a></li>
-						<li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
-						</ul>
-						</div>
-						<div class="clear"></div>
-						</div>';
+						</table>';
 					} else {
 						echo '<div class="alert alert-warning">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -112,3 +99,8 @@ include 'header.php';
 	<?php 
 	include 'footer.php';
 	?>
+	<script>
+    $(document).ready(function(){
+      $('#dataTable').DataTable();
+    });
+  </script>
