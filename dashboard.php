@@ -2,11 +2,17 @@
 
 include 'functions.php';
 
-/*if(isset($_SESSION['user_id']) == '' ) {
+if(isset($_SESSION['user_id']) == '' ) {
+	$_SESSION['failure'] = 'Please login to view page.';
 	header("location:login.php");
-}*/
+}
 
-
+if(isset($_GET['del']) && $_GET['del'] != '') {
+  $del = mysqli_real_escape_string($con, strip_tags(trim($_GET['del'])));
+  $sql = "DELETE FROM tbl_prop WHERE id='".$del."'";
+  mysqli_query($con, $sql);
+  $_SESSION['success'] = 'Property deleted Successfully.';
+}
 
 
 ?>
@@ -27,7 +33,7 @@ include 'header.php';
 	<div class="container">
 
 		<div class="row">
-			<?php include 'links.php'; ?>;
+			<?php include 'links.php'; ?>
 			<div class="col-lg-9 col-md-9">
 				<div class="col-md-12">
 					<?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
@@ -74,7 +80,7 @@ include 'header.php';
 						<td class="property-actions">
 						<a href="property.php/?id='.$row['id'].'"><i class="fa fa-eye icon"></i>View</a>
 						<a href="#"><i class="fa fa-pencil icon"></i>Edit</a>
-						<a href="#"><i class="fa fa-close icon"></i>Delete</a>
+						<a href="?del='.$row['id'].'"><i class="fa fa-close icon"></i>Delete</a>
 						</td>
 						</tr>';
 						}echo '

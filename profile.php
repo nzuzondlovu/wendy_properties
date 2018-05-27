@@ -2,9 +2,10 @@
 
 include 'functions.php';
 
-/*if(isset($_SESSION['user_id']) == '' ) {
+if(isset($_SESSION['user_id']) == '' ) {
+	$_SESSION['failure'] = 'Please login to view page.';
 	header("location:login.php");
-}*/
+}
 
 if (isset($_POST['submit'])) {
 
@@ -65,7 +66,7 @@ include 'header.php';
 	<div class="container">
 
 		<div class="row">
-			<?php include 'links.php'; ?>;
+			<?php include 'links.php'; ?>
 			<div class="col-lg-9 col-md-9">
 				<div class="col-md-12">
 					<?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>

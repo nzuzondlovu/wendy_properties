@@ -26,7 +26,7 @@ include 'header.php';
           <div class="slide">
           <div class="img-overlay black"></div>
           <div class="container">
-          <div class="slide-price">'.$row['price'].'</div>
+          <div class="slide-price">R'.$row['price'].'</div>
           <div class="slide-content">
           <h1>'.$row['title'].'</h1>
           <p><i class="fa fa-map-marker icon"></i>'.$row['address'].'</p>
