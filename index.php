@@ -1,4 +1,6 @@
-<?php 
+<?php
+include 'functions.php'; 
+
 include 'header.php';
 ?>
 
@@ -12,53 +14,46 @@ include 'header.php';
     </div>
 
     <div class="slider slider-simple slider-advanced">
-     
-      <div class="slide">
-        <div class="img-overlay black"></div>
-        <div class="container">
-          <div class="slide-price">$250,000</div>
+      <?php
+
+      $sql = "SELECT * FROM tbl_prop LIMIT 2";
+      $res = mysqli_query($con, $sql);
+
+      if (mysqli_num_rows($res) > 0) {
+        while ($row = mysqli_fetch_assoc($res)) {
+
+          echo '
+          <div class="slide">
+          <div class="img-overlay black"></div>
+          <div class="container">
+          <div class="slide-price">'.$row['price'].'</div>
           <div class="slide-content">
-            <h1>Mordern Family Home</h1>
-            <p><i class="fa fa-map-marker icon"></i>432 Smith Dr. Balitmore, MD</p>
-            <p class="slide-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquet est augue malesuada dictum. Nullam elementum dictum.</p>
-            <table>
-              <tr>
-                <td><i class="fa fa-bed"></i><br/>3 Beds</td>
-                <td><i class="fa fa-tint"></i><br/>3 Baths</td>
-                <td><i class="fa fa-expand"></i><br/>8,000 Sq Ft</td>
-                <td><i class="fa fa-car"></i><br/>1 Garage</td>
-              </tr>
-            </table>
-            <a href="#" class="button small alt right">Featured</a>
-            <a href="#" class="button small grey right">For Sale</a>
-            <a href="#" class="button button-icon"><i class="fa fa-angle-right"></i>View Details</a>
+          <h1>'.$row['title'].'</h1>
+          <p><i class="fa fa-map-marker icon"></i>'.$row['address'].'</p>
+          <p class="slide-text">'.$row['description'].'</p>
+          <table>
+          <tr>
+          <td><i class="fa fa-bed"></i><br/>'.$row['beds'].' Beds</td>
+          <td><i class="fa fa-tint"></i><br/>'.$row['baths'].' Baths</td>
+          <td><i class="fa fa-expand"></i><br/>'.$row['area'].' Sq Mtr</td>
+          <td><i class="fa fa-car"></i><br/>'.$row['garages'].' Garage</td>
+          </tr>
+          </table>
+          <a href="#" class="button small alt right">Featured</a>
+          <a href="#" class="button small grey right">'.$row['status'].'</a>
+          <a href="property.php?id='.$row['id'].'" class="button button-icon"><i class="fa fa-angle-right"></i>View Details</a>
           </div>
-        </div>
-      </div>
-      
-      <div class="slide">
-        <div class="img-overlay black"></div>
-        <div class="container">
-          <div class="slide-price">$8,000 <span>Per Month</span></div>
-          <div class="slide-content">
-            <h1>Beautiful Waterfront Home</h1>
-            <p><i class="fa fa-map-marker icon"></i>432 Smith Dr. Balitmore, MD</p>
-            <p class="slide-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquet est augue malesuada dictum. Nullam elementum dictum.</p>
-            <table>
-              <tr>
-                <td><i class="fa fa-bed"></i><br/>3 Beds</td>
-                <td><i class="fa fa-tint"></i><br/>3 Baths</td>
-                <td><i class="fa fa-expand"></i><br/>2,000 Sq Ft</td>
-                <td><i class="fa fa-car"></i><br/>1 Garage</td>
-              </tr>
-            </table>
-            <a href="#" class="button small alt right">Featured</a>
-            <a href="#" class="button small grey right">For Sale</a>
-            <a href="#" class="button button-icon"><i class="fa fa-angle-right"></i>View Details</a>
           </div>
-        </div>
-      </div>
-    
+          </div>';
+        }
+      } else {
+        echo '
+        <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>No features found.</strong>
+        </div>';
+      }
+      ?>     
     </div><!-- end slider -->
   </div><!-- end slider wrap -->
 </section>
@@ -67,24 +62,24 @@ include 'header.php';
 
   <div class="tabs">
 
-    <div class="filter-header">
-      <div class="container">
+    <form method="post" action="list.php">
+      <div class="filter-header">
+        <div class="container">
           <ul>
             <li><a href="#tabs-1">All</a></li>
             <li><a href="#tabs-2">For Sale</a></li>
             <li><a href="#tabs-3">For Rent</a></li>
           </ul>
-      </div><!-- end container -->
-    </div><!-- end filter header -->
+        </div><!-- end container -->
+      </div><!-- end filter header -->
 
-    <div class="container">
+      <div class="container">
 
-      <div id="tabs-1" class="ui-tabs-hide">
-        <form method="get">
-          
+        <div id="tabs-1" class="ui-tabs-hide">
+
           <div class="filter-item filter-item-7">
             <label>Property Type</label>
-            <select name="property-type">
+            <select name="type">
               <option value="">Any</option>
               <option value="family-house">Family House</option>
               <option value="apartment">Apartment</option>
@@ -97,7 +92,7 @@ include 'header.php';
 
           <div class="filter-item filter-item-7">
             <label>Location</label>
-            <select name="property-type">
+            <select name="location">
               <option value="">Any</option>
               <option value="baltimore">Baltimore</option>
               <option value="annapolis">Annapolis</option>
@@ -108,7 +103,9 @@ include 'header.php';
 
           <div class="filter-item filter-item-7">
             <label>Price</label>
-            <div class="price-slider" id="price-slider"></div>
+            <input type="number" name="priceMin" class="area-filter" placeholder="Min" />
+            <input type="number" name="priceMax" class="area-filter" placeholder="Max" />
+            <div class="clear"></div>
           </div>
 
           <div class="filter-item filter-item-7">
@@ -154,15 +151,15 @@ include 'header.php';
 
           <div class="filter-item filter-item-7">
             <label class="label-submit">Submit</label><br/>
-            <input type="submit" class="button alt" value="Find Properties" />
+            <input type="submit" name="submit_search" class="button alt" value="Find Properties" />
           </div>
 
-        </form>
-      </div><!-- end tab 1 -->
+        </div><!-- end tab 1 -->
 
-      <div id="tabs-2" class="ui-tabs-hide">
+      </form>
+      <!-- <div id="tabs-2" class="ui-tabs-hide">
         <form method="get">
-          
+
           <div class="filter-item filter-item-7">
             <label>Property Type</label>
             <select name="property-type">
@@ -239,11 +236,11 @@ include 'header.php';
           </div>
 
         </form>
-      </div><!-- end tab 2 -->
+      </div>end tab 2
 
       <div id="tabs-3" class="ui-tabs-hide">
         <form method="get">
-          
+
           <div class="filter-item filter-item-7">
             <label>Property Type</label>
             <select name="property-type">
@@ -320,7 +317,7 @@ include 'header.php';
           </div>
 
         </form>
-      </div><!-- end tab 3 -->
+      </div> --><!-- end tab 3 -->
 
     </div><!-- end container -->
   </div><!-- end tabs -->
@@ -334,7 +331,7 @@ include 'header.php';
           <i class="fa fa-home"></i>
           <h4>Sell Property</h4>
           <p>Morbi accumsan ipsum velit Nam nec tellus 
-          a odio tincidunt auctor a ornare odio sedlon 
+            a odio tincidunt auctor a ornare odio sedlon 
           maurisvitae erat consequat auctor</p>
         </div>
       </div>
@@ -343,7 +340,7 @@ include 'header.php';
           <i class="fa fa-group"></i>
           <h4>Expert Agents</h4>
           <p>Morbi accumsan ipsum velit Nam nec tellus 
-          a odio tincidunt auctor a ornare odio sedlon 
+            a odio tincidunt auctor a ornare odio sedlon 
           maurisvitae erat consequat auctor</p>
         </div>
       </div>
@@ -352,7 +349,7 @@ include 'header.php';
           <i class="fa fa-file-text"></i>
           <h4>Daily Listings</h4>
           <p>Morbi accumsan ipsum velit Nam nec tellus 
-          a odio tincidunt auctor a ornare odio sedlon 
+            a odio tincidunt auctor a ornare odio sedlon 
           maurisvitae erat consequat auctor</p>
         </div>
       </div>
@@ -377,127 +374,127 @@ include 'header.php';
   
   <div class="slider-wrap">
     <div class="slider slider-featured">
-    
-    <div class="property property-hidden-content slide">
-      <a href="#" class="property-content">
-        <div class="property-title">
-          <h4>Modern Family Home</h4>
-          <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-        </div>
-        <table class="property-details">
-          <tr>
-            <td><i class="fa fa-bed"></i> 3 Beds</td>
-            <td><i class="fa fa-tint"></i> 2 Baths</td>
-            <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-          </tr>
-        </table>
-      </a>
-      <a href="#" class="property-img">
+
+      <div class="property property-hidden-content slide">
+        <a href="#" class="property-content">
+          <div class="property-title">
+            <h4>Modern Family Home</h4>
+            <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+          </div>
+          <table class="property-details">
+            <tr>
+              <td><i class="fa fa-bed"></i> 3 Beds</td>
+              <td><i class="fa fa-tint"></i> 2 Baths</td>
+              <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+            </tr>
+          </table>
+        </a>
+        <a href="#" class="property-img">
           <div class="img-fade"></div>
           <div class="property-tag button alt featured">Featured</div>
           <div class="property-tag button status">For Rent</div>
           <div class="property-price">$150,000</div>
           <div class="property-color-bar"></div>
           <img src="images/property-img1.jpg" alt="" />
-      </a>
-    </div>
+        </a>
+      </div>
 
-    <div class="property property-hidden-content slide">
-      <a href="#" class="property-content">
-        <div class="property-title">
-          <h4>Modern Family Home</h4>
-          <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-        </div>
-        <table class="property-details">
-          <tr>
-            <td><i class="fa fa-bed"></i> 3 Beds</td>
-            <td><i class="fa fa-tint"></i> 2 Baths</td>
-            <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-          </tr>
-        </table>
-      </a>
-      <a href="#" class="property-img">
+      <div class="property property-hidden-content slide">
+        <a href="#" class="property-content">
+          <div class="property-title">
+            <h4>Modern Family Home</h4>
+            <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+          </div>
+          <table class="property-details">
+            <tr>
+              <td><i class="fa fa-bed"></i> 3 Beds</td>
+              <td><i class="fa fa-tint"></i> 2 Baths</td>
+              <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+            </tr>
+          </table>
+        </a>
+        <a href="#" class="property-img">
           <div class="img-fade"></div>
           <div class="property-tag button alt featured">Featured</div>
           <div class="property-tag button status">For Rent</div>
           <div class="property-price">$150,000</div>
           <div class="property-color-bar"></div>
           <img src="images/property-img2.jpg" alt="" />
-      </a>
-    </div>
+        </a>
+      </div>
 
-    <div class="property property-hidden-content slide">
-      <a href="#" class="property-content">
-        <div class="property-title">
-          <h4>Modern Family Home</h4>
-          <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-        </div>
-        <table class="property-details">
-          <tr>
-            <td><i class="fa fa-bed"></i> 3 Beds</td>
-            <td><i class="fa fa-tint"></i> 2 Baths</td>
-            <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-          </tr>
-        </table>
-      </a>
-      <a href="#" class="property-img">
+      <div class="property property-hidden-content slide">
+        <a href="#" class="property-content">
+          <div class="property-title">
+            <h4>Modern Family Home</h4>
+            <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+          </div>
+          <table class="property-details">
+            <tr>
+              <td><i class="fa fa-bed"></i> 3 Beds</td>
+              <td><i class="fa fa-tint"></i> 2 Baths</td>
+              <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+            </tr>
+          </table>
+        </a>
+        <a href="#" class="property-img">
           <div class="img-fade"></div>
           <div class="property-tag button alt featured">Featured</div>
           <div class="property-tag button status">For Rent</div>
           <div class="property-price">$150,000</div>
           <div class="property-color-bar"></div>
           <img src="images/property-img3.jpg" alt="" />
-      </a>
-    </div>
+        </a>
+      </div>
 
-    <div class="property property-hidden-content slide">
-      <a href="#" class="property-content">
-        <div class="property-title">
-          <h4>Modern Family Home</h4>
-          <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-        </div>
-        <table class="property-details">
-          <tr>
-            <td><i class="fa fa-bed"></i> 3 Beds</td>
-            <td><i class="fa fa-tint"></i> 2 Baths</td>
-            <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-          </tr>
-        </table>
-      </a>
-      <a href="#" class="property-img">
+      <div class="property property-hidden-content slide">
+        <a href="#" class="property-content">
+          <div class="property-title">
+            <h4>Modern Family Home</h4>
+            <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+          </div>
+          <table class="property-details">
+            <tr>
+              <td><i class="fa fa-bed"></i> 3 Beds</td>
+              <td><i class="fa fa-tint"></i> 2 Baths</td>
+              <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+            </tr>
+          </table>
+        </a>
+        <a href="#" class="property-img">
           <div class="img-fade"></div>
           <div class="property-tag button alt featured">Featured</div>
           <div class="property-tag button status">For Rent</div>
           <div class="property-price">$150,000</div>
           <div class="property-color-bar"></div>
           <img src="images/property-img4.jpg" alt="" />
-      </a>
-    </div>
-  
-    <div class="property property-hidden-content slide">
-      <a href="#" class="property-content">
-        <div class="property-title">
-          <h4>Modern Family Home</h4>
-          <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-        </div>
-        <table class="property-details">
-          <tr>
-            <td><i class="fa fa-bed"></i> 3 Beds</td>
-            <td><i class="fa fa-tint"></i> 2 Baths</td>
-            <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-          </tr>
-        </table>
-      </a>
-      <a href="#" class="property-img">
+        </a>
+      </div>
+
+      <div class="property property-hidden-content slide">
+        <a href="#" class="property-content">
+          <div class="property-title">
+            <h4>Modern Family Home</h4>
+            <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+          </div>
+          <table class="property-details">
+            <tr>
+              <td><i class="fa fa-bed"></i> 3 Beds</td>
+              <td><i class="fa fa-tint"></i> 2 Baths</td>
+              <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+            </tr>
+          </table>
+        </a>
+        <a href="#" class="property-img">
           <div class="img-fade"></div>
           <div class="property-tag button alt featured">Featured</div>
           <div class="property-tag button status">For Rent</div>
           <div class="property-price">$150,000</div>
           <div class="property-color-bar"></div>
           <img src="images/property-img2.jpg" alt="" />
-      </a>
-    </div>
-  
+        </a>
+      </div>
+
     </div><!-- end slider -->
   </div><!-- end slider wrap -->
 </section>
@@ -603,107 +600,107 @@ include 'header.php';
 
     <div class="row">
 
-        <div class="col-lg-4 col-md-4">
-          <div class="property shadow-hover">
-            <a href="#" class="property-img">
-              <div class="img-fade"></div>
-              <div class="property-tag button alt featured">Featured</div>
-              <div class="property-tag button status">For Sale</div>
-              <div class="property-price">$150,000</div>
-              <div class="property-color-bar"></div>
-              <img src="images/property-img1.jpg" alt="" />
-            </a>
-            <div class="property-content">
-              <div class="property-title">
+      <div class="col-lg-4 col-md-4">
+        <div class="property shadow-hover">
+          <a href="#" class="property-img">
+            <div class="img-fade"></div>
+            <div class="property-tag button alt featured">Featured</div>
+            <div class="property-tag button status">For Sale</div>
+            <div class="property-price">$150,000</div>
+            <div class="property-color-bar"></div>
+            <img src="images/property-img1.jpg" alt="" />
+          </a>
+          <div class="property-content">
+            <div class="property-title">
               <h4><a href="#">Modern Family Home</a></h4>
-                <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-              </div>
-              <table class="property-details">
-                <tr>
-                  <td><i class="fa fa-bed"></i> 3 Beds</td>
-                  <td><i class="fa fa-tint"></i> 2 Baths</td>
-                  <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-                </tr>
-              </table>
+              <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
             </div>
-            <div class="property-footer">
-              <span class="left"><i class="fa fa-calendar-o icon"></i> 5 days ago</span>
-              <span class="right">
-                <a href="#"><i class="fa fa-heart-o icon"></i></a>
-                <a href="#"><i class="fa fa-share-alt"></i></a>
-              </span>
-              <div class="clear"></div>
-            </div>
+            <table class="property-details">
+              <tr>
+                <td><i class="fa fa-bed"></i> 3 Beds</td>
+                <td><i class="fa fa-tint"></i> 2 Baths</td>
+                <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+              </tr>
+            </table>
+          </div>
+          <div class="property-footer">
+            <span class="left"><i class="fa fa-calendar-o icon"></i> 5 days ago</span>
+            <span class="right">
+              <a href="#"><i class="fa fa-heart-o icon"></i></a>
+              <a href="#"><i class="fa fa-share-alt"></i></a>
+            </span>
+            <div class="clear"></div>
           </div>
         </div>
+      </div>
 
-        <div class="col-lg-4 col-md-4">
-          <div class="property shadow-hover">
-            <a href="#" class="property-img">
-              <div class="img-fade"></div>
-              <div class="property-tag button alt featured">Featured</div>
-              <div class="property-tag button status">For Rent</div>
-              <div class="property-price">$6,500 <span>Per Month</span></div>
-              <div class="property-color-bar"></div>
-              <img src="images/property-img3.jpg" alt="" />
-            </a>
-            <div class="property-content">
-              <div class="property-title">
+      <div class="col-lg-4 col-md-4">
+        <div class="property shadow-hover">
+          <a href="#" class="property-img">
+            <div class="img-fade"></div>
+            <div class="property-tag button alt featured">Featured</div>
+            <div class="property-tag button status">For Rent</div>
+            <div class="property-price">$6,500 <span>Per Month</span></div>
+            <div class="property-color-bar"></div>
+            <img src="images/property-img3.jpg" alt="" />
+          </a>
+          <div class="property-content">
+            <div class="property-title">
               <h4><a href="#">Beautiful Waterfront Condo</a></h4>
-                <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-              </div>
-              <table class="property-details">
-                <tr>
-                  <td><i class="fa fa-bed"></i> 3 Beds</td>
-                  <td><i class="fa fa-tint"></i> 2 Baths</td>
-                  <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-                </tr>
-              </table>
+              <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
             </div>
-            <div class="property-footer">
-              <span class="left"><i class="fa fa-calendar-o icon"></i> 1 week ago</span>
-              <span class="right">
-                <a href="#"><i class="fa fa-heart-o icon"></i></a>
-                <a href="#"><i class="fa fa-share-alt"></i></a>
-              </span>
-              <div class="clear"></div>
-            </div>
+            <table class="property-details">
+              <tr>
+                <td><i class="fa fa-bed"></i> 3 Beds</td>
+                <td><i class="fa fa-tint"></i> 2 Baths</td>
+                <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+              </tr>
+            </table>
+          </div>
+          <div class="property-footer">
+            <span class="left"><i class="fa fa-calendar-o icon"></i> 1 week ago</span>
+            <span class="right">
+              <a href="#"><i class="fa fa-heart-o icon"></i></a>
+              <a href="#"><i class="fa fa-share-alt"></i></a>
+            </span>
+            <div class="clear"></div>
           </div>
         </div>
+      </div>
 
-        <div class="col-lg-4 col-md-4">
-          <div class="property shadow-hover">
-            <a href="#" class="property-img">
-              <div class="img-fade"></div>
-              <div class="property-tag button alt featured">Featured</div>
-              <div class="property-tag button status">For Rent</div>
-              <div class="property-price">$150,000</div>
-              <div class="property-color-bar"></div>
-              <img src="images/property-img4.jpg" alt="" />
-            </a>
-            <div class="property-content">
-              <div class="property-title">
+      <div class="col-lg-4 col-md-4">
+        <div class="property shadow-hover">
+          <a href="#" class="property-img">
+            <div class="img-fade"></div>
+            <div class="property-tag button alt featured">Featured</div>
+            <div class="property-tag button status">For Rent</div>
+            <div class="property-price">$150,000</div>
+            <div class="property-color-bar"></div>
+            <img src="images/property-img4.jpg" alt="" />
+          </a>
+          <div class="property-content">
+            <div class="property-title">
               <h4><a href="#">Modern Family Home</a></h4>
-                <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
-              </div>
-              <table class="property-details">
-                <tr>
-                  <td><i class="fa fa-bed"></i> 3 Beds</td>
-                  <td><i class="fa fa-tint"></i> 2 Baths</td>
-                  <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
-                </tr>
-              </table>
+              <p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
             </div>
-            <div class="property-footer">
-              <span class="left"><i class="fa fa-calendar-o icon"></i> 2 weeks ago</span>
-              <span class="right">
-                <a href="#"><i class="fa fa-heart-o icon"></i></a>
-                <a href="#"><i class="fa fa-share-alt"></i></a>
-              </span>
-              <div class="clear"></div>
-            </div>
+            <table class="property-details">
+              <tr>
+                <td><i class="fa fa-bed"></i> 3 Beds</td>
+                <td><i class="fa fa-tint"></i> 2 Baths</td>
+                <td><i class="fa fa-expand"></i> 25,000 Sq Ft</td>
+              </tr>
+            </table>
+          </div>
+          <div class="property-footer">
+            <span class="left"><i class="fa fa-calendar-o icon"></i> 2 weeks ago</span>
+            <span class="right">
+              <a href="#"><i class="fa fa-heart-o icon"></i></a>
+              <a href="#"><i class="fa fa-share-alt"></i></a>
+            </span>
+            <div class="clear"></div>
           </div>
         </div>
+      </div>
     </div><!-- end row -->
 
     <div class="center"><a href="#" class="button button-icon more-properties-btn"><i class="fa fa-angle-right"></i> View More Properties</a></div>
@@ -721,130 +718,130 @@ include 'header.php';
     </div>
 
     <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="agent shadow-hover">
-            <a href="#" class="agent-img">
-              <div class="img-fade"></div>
-              <div class="button alt agent-tag">24 Properties</div>
-              <img src="images/agent-img1.jpg" alt="" />
-            </a>
-            <div class="agent-content">
-              <div class="agent-details">
-                <h4><a href="#">Sarah Parker</a></h4>
-                <p><i class="fa fa-tag icon"></i>Selling Agent</p>
-                <p><i class="fa fa-envelope icon"></i>sparker@homely.com</p>
-                <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
-              </div>
-              <div class="center">
-				  <ul class="social-icons circle">
-					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-				  </ul>
-			  </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="agent shadow-hover">
+          <a href="#" class="agent-img">
+            <div class="img-fade"></div>
+            <div class="button alt agent-tag">24 Properties</div>
+            <img src="images/agent-img1.jpg" alt="" />
+          </a>
+          <div class="agent-content">
+            <div class="agent-details">
+              <h4><a href="#">Sarah Parker</a></h4>
+              <p><i class="fa fa-tag icon"></i>Selling Agent</p>
+              <p><i class="fa fa-envelope icon"></i>sparker@homely.com</p>
+              <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
             </div>
+            <div class="center">
+              <ul class="social-icons circle">
+               <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+               <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+               <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+               <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+               <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+             </ul>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col-lg-3 col-md-3">
+      <div class="agent shadow-hover">
+        <a href="#" class="agent-img">
+          <div class="img-fade"></div>
+          <div class="button alt agent-tag">68 Properties</div>
+          <img src="images/agent-img2.jpg" alt="" />
+        </a>
+        <div class="agent-content">
+          <div class="agent-details">
+            <h4><a href="#">John Doe</a></h4>
+            <p><i class="fa fa-tag icon"></i>Buying Agent</p>
+            <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
+            <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
           </div>
+          <div class="center">
+            <ul class="social-icons circle">
+             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+             <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="col-lg-3 col-md-3">
+    <div class="agent shadow-hover">
+      <a href="#" class="agent-img">
+        <div class="img-fade"></div>
+        <div class="button alt agent-tag">32 Properties</div>
+        <img src="images/agent-img4.jpg" alt="" />
+      </a>
+      <div class="agent-content">
+        <div class="agent-details">
+          <h4><a href="#">Cassandra Smith</a></h4>
+          <p><i class="fa fa-tag icon"></i>Senior Agent</p>
+          <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
+          <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
         </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="agent shadow-hover">
-            <a href="#" class="agent-img">
-              <div class="img-fade"></div>
-              <div class="button alt agent-tag">68 Properties</div>
-              <img src="images/agent-img2.jpg" alt="" />
-            </a>
-            <div class="agent-content">
-              <div class="agent-details">
-                <h4><a href="#">John Doe</a></h4>
-                <p><i class="fa fa-tag icon"></i>Buying Agent</p>
-                <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
-                <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
-              </div>
-              <div class="center">
-				  <ul class="social-icons circle">
-					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-				  </ul>
-			  </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="agent shadow-hover">
-            <a href="#" class="agent-img">
-              <div class="img-fade"></div>
-              <div class="button alt agent-tag">32 Properties</div>
-              <img src="images/agent-img4.jpg" alt="" />
-            </a>
-            <div class="agent-content">
-              <div class="agent-details">
-                <h4><a href="#">Cassandra Smith</a></h4>
-                <p><i class="fa fa-tag icon"></i>Senior Agent</p>
-                <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
-                <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
-              </div>
-              <div class="center">
-				  <ul class="social-icons circle">
-					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-				  </ul>
-			  </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="agent shadow-hover">
-            <a href="#" class="agent-img">
-              <div class="img-fade"></div>
-              <div class="button alt agent-tag">24 Properties</div>
-              <img src="images/agent-img3.jpg" alt="" />
-            </a>
-            <div class="agent-content">
-              <div class="agent-details">
-                <h4><a href="#">Jim Sparks</a></h4>
-                <p><i class="fa fa-tag icon"></i>Buying Agent</p>
-                <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
-                <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
-              </div>
-              <div class="center">
-				  <ul class="social-icons circle">
-					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-				  </ul>
-			  </div>
-            </div>
-          </div>
-        </div>
-    </div>
+        <div class="center">
+          <ul class="social-icons circle">
+           <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+           <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+           <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+           <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+           <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+         </ul>
+       </div>
+     </div>
+   </div>
+ </div>
+ <div class="col-lg-3 col-md-3">
+  <div class="agent shadow-hover">
+    <a href="#" class="agent-img">
+      <div class="img-fade"></div>
+      <div class="button alt agent-tag">24 Properties</div>
+      <img src="images/agent-img3.jpg" alt="" />
+    </a>
+    <div class="agent-content">
+      <div class="agent-details">
+        <h4><a href="#">Jim Sparks</a></h4>
+        <p><i class="fa fa-tag icon"></i>Buying Agent</p>
+        <p><i class="fa fa-envelope icon"></i>jdoe@homely.com</p>
+        <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
+      </div>
+      <div class="center">
+        <ul class="social-icons circle">
+         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+         <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+         <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+       </ul>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
 
-  </div><!-- end container -->
+</div><!-- end container -->
 </section>
 
 <section class="module cta newsletter">
   <div class="container">
-	<div class="row">
-		<div class="col-lg-7 col-md-7">
-			<h3>Sign up for our <strong>newsletter.</strong></h3>
-			<p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-		</div>
-		<div class="col-lg-5 col-md-5">
-			<form method="post" id="newsletter-form" class="newsletter-form">
-				<input type="email" placeholder="Your email..." />
-				<button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-			</form>
-		</div>
-	</div><!-- end row -->
-  </div><!-- end container -->
+   <div class="row">
+    <div class="col-lg-7 col-md-7">
+     <h3>Sign up for our <strong>newsletter.</strong></h3>
+     <p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+   </div>
+   <div class="col-lg-5 col-md-5">
+     <form method="post" id="newsletter-form" class="newsletter-form">
+      <input type="email" placeholder="Your email..." />
+      <button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
+    </form>
+  </div>
+</div><!-- end row -->
+</div><!-- end container -->
 </section>
 
 
