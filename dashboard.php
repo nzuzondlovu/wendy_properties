@@ -17,8 +17,8 @@ include 'header.php';
 
 <section class="subheader">
 	<div class="container">
-		<h1>My Properties</h1>
-		<div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> <a href="#" class="current">My Properties</a></div>
+		<h1>Properties</h1>
+		<div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> <a href="#" class="current">Properties</a></div>
 		<div class="clear"></div>
 	</div>
 </section>
