@@ -29,8 +29,8 @@ if (isset($_POST['submit'])) {
 
 			if ($pass2 == $pass3) {
 
-				$sql = "INSERT INTO tbl_agents(fname, lname, email, password)
-				VALUES('".$fname."', '".$lname."', '".$email."', '".$pass1."')";
+				/*$sql = "INSERT INTO tbl_agents(fname, lname, email, password)
+				VALUES('".$fname."', '".$lname."', '".$email."', '".$pass1."')";*/
 				mysqli_query($con, $sql);
 				$_SESSION['success'] = 'Your details have been successfully updated, please log in.';
 				header("location:logout.php");
