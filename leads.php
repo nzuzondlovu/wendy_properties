@@ -2,11 +2,17 @@
 
 include 'functions.php';
 
-/*if(isset($_SESSION['user_id']) == '' ) {
+if(isset($_SESSION['user_id']) == '' ) {
+	$_SESSION['failure'] = 'Please login to view page.';
 	header("location:login.php");
-}*/
+}
 
-
+if(isset($_GET['del']) && $_GET['del'] != '') {
+  $del = mysqli_real_escape_string($con, strip_tags(trim($_GET['del'])));
+  $sql = "DELETE FROM tbl_lead WHERE id='".$del."'";
+  mysqli_query($con, $sql);
+  $_SESSION['success'] = 'Lead deleted Successfully.';
+}
 
 
 ?>
@@ -27,7 +33,7 @@ include 'header.php';
 	<div class="container">
 
 		<div class="row">
-			<?php include 'links.php'; ?>;
+			<?php include 'links.php'; ?>
 			<div class="col-lg-9 col-md-9">
 				<?php
 
@@ -44,17 +50,21 @@ include 'header.php';
 					</tr>';
 					while ($row = mysqli_fetch_assoc($res)) {
 
+						$sql1 = "SELECT * FROM tbl_prop WHERE id=".$row['prop_id']."";
+						$res1 = mysqli_query($con, $sql1);
+						$row1 = mysqli_fetch_assoc($res1);
+
 						echo '
 						<tr>
-						<td class="property-img"><a href="property-single.html"><img src="images/property-img4.jpg" alt="" /></a></td>
+						<td class="property-img"><a href="property.php?id='.$row1['id'].'"><img src="'.$row1['image'].'" alt="" /></a></td>
 						<td class="property-title">
-						<a href="property-single.html">Modern Family Home</a><br/>
-						<p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Drive, Baltimore, MD</p>
-						<p><strong>$253,000</strong></p>
+						<a href="property.php?id='.$row1['id'].'">'.$row1['title'].'</a><br/>
+						<p class="property-address"><i class="fa fa-map-marker icon"></i>'.$row1['address'].'</p>
+						<p><strong>R'.$row1['price'].'</strong></p>
 						</td>
 						<td class="property-actions">
-						<a href="#"><i class="fa fa-eye icon"></i>View</a>
-						<a href="#"><i class="fa fa-close icon"></i>Delete</a>
+						<a href="property.php?id='.$row1['id'].'"><i class="fa fa-eye icon"></i>View</a>
+						<a href="?del='.$row1['id'].'"><i class="fa fa-close icon"></i>Delete</a>
 						</td>
 						</tr>';
 						}echo '
@@ -96,7 +106,7 @@ include 'header.php';
 	include 'footer.php';
 	?>
 	<script>
-    $(document).ready(function(){
-      $('#dataTable').DataTable();
-    });
-  </script>
+		$(document).ready(function(){
+			$('#dataTable').DataTable();
+		});
+	</script>
