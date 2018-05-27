@@ -40,8 +40,8 @@
           <div class="clear"></div>
         </div>
         <div class="top-bar-right right">
-          <a href="login.html" class="top-bar-item"><i class="fa fa-sign-in icon"></i>Login</a>
-          <a href="register.html" class="top-bar-item"><i class="fa fa-user-plus icon"></i>Register</a>
+          <a href="login.php" class="top-bar-item"><i class="fa fa-sign-in icon"></i>Login</a>
+          <a href="register.php" class="top-bar-item"><i class="fa fa-user-plus icon"></i>Register</a>
           <div class="clear"></div>
         </div>
         <div class="clear"></div>

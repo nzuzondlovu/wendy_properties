@@ -7,11 +7,11 @@ include 'functions.php';
 if (isset($_POST['submit'])) {
 
   $email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
-  $pass1 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"])));
+  $pass1 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"]))));
 
   if ($email != '' && $pass1 != '') {
 
-    $sql = "SELECT * FROM tbl_users WHERE email='".$email."' AND password='".$pass1."'";
+    $sql = "SELECT * FROM tbl_user WHERE email='".$email."' AND password='".$pass1."'";
     $res = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($res) > 0) {

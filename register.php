@@ -9,14 +9,14 @@ if (isset($_POST['submit'])) {
   $fname = mysqli_real_escape_string($con, strip_tags(trim($_POST["fname"])));
   $lname = mysqli_real_escape_string($con, strip_tags(trim($_POST["lname"])));
   $email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
-  $pass1 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"])));
-  $pass2 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass2"])));
+  $pass1 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"]))));
+  $pass2 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass2"]))));
 
   if ($fname != '' && $lname != '' && $email != '' && $pass1 != '' && $pass2 != '') {
 
     if ($pass1 == $pass2) {
 
-      $sql = "INSERT INTO tbl_agents(fname, lname, email, password)
+      $sql = "INSERT INTO tbl_user(fname, lname, email, password)
       VALUES('".$fname."', '".$lname."', '".$email."', '".$pass1."')";
       mysqli_query($con, $sql);
       $_SESSION['success'] = 'You have been registered succesfully, please log in.';

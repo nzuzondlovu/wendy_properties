@@ -64,14 +64,15 @@ include 'header.php';
 
 						echo '
 						<tr>
-						<td class="property-img"><a href="property-single.html"><img src="images/property-img4.jpg" alt="" /></a>'.$row['id'].'</td>
+						<td class="property-img"><a href="property.php/?id='.$row['id'].'"><img src="'.$row['image'].'" alt="" /></a></td>
 						<td class="property-title">
-						<a href="property-single.html">Modern Family Home</a><br/>
-						<p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Drive, Baltimore, MD</p>
-						<p><strong>$253,000</strong></p>'.$row['name'].' '.$row['surname'].'</td>
-						<td class="property-post-status"><span class="button small alt">Published</span>'.$row['email'].'</td>
+						<a href="property.php/?id='.$row['id'].'">'.$row['title'].'</a><br/>
+						<p class="property-address"><i class="fa fa-map-marker icon"></i>'.$row['address'].'</p>
+						<p><strong>R'.$row['price'].'</strong></p></td>
+						<td class="property-post-status"><span class="button small alt">'.$row['status'].'</span></td>
+						<td>'.$row['date'].'</td>
 						<td class="property-actions">
-						<a href="#"><i class="fa fa-eye icon"></i>View</a>
+						<a href="property.php/?id='.$row['id'].'"><i class="fa fa-eye icon"></i>View</a>
 						<a href="#"><i class="fa fa-pencil icon"></i>Edit</a>
 						<a href="#"><i class="fa fa-close icon"></i>Delete</a>
 						</td>

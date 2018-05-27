@@ -23,7 +23,21 @@ include 'header.php';
 
     <div class="row">
       <div class="col-lg-10 col-lg-offset-1">
+        <div class="col-md-12">
+          <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
+            <div class="alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+          <?php } ?>
 
+          <?php if(isset($_SESSION['failure']) && $_SESSION['failure'] != '') { ?>
+            <div class="alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php echo $_SESSION['failure']; unset($_SESSION['failure']); ?>
+            </div>
+          <?php } ?>
+        </div>
         <form class="multi-page-form" action="upload.php" method="post" enctype="multipart/form-data">
 
           <div class="center">
@@ -146,131 +160,134 @@ include 'header.php';
             </div>
             <br/>
 
-          <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
-          <div class="clear"></div>
-        </div><!-- end property images -->
+            <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+            <div class="clear"></div>
+          </div><!-- end property images -->
 
-        <div class="multi-page-form-content">
+          <div class="multi-page-form-content">
 
-          <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+            <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
 
-          <table class="property-submit-title">
-            <tr>
-              <td><span class="property-submit-num">3</span></td>
-              <td>
-                <h4>Location</h4>
-                <p>Please enter the location of the property.</p>
-              </td>
-            </tr>
-          </table>
+            <table class="property-submit-title">
+              <tr>
+                <td><span class="property-submit-num">3</span></td>
+                <td>
+                  <h4>Location</h4>
+                  <p>Please enter the location of the property.</p>
+                </td>
+              </tr>
+            </table>
 
-          <div class="form-block">
-            <label>Address*</label>
-            <input class="border required" type="text" name="address" />
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-              <div class="form-block">
-                <label for="property_latitude">Latitude</label>
-                <input type="text" name="latitude" class="border" id="property_latitude" />
-              </div>
+            <div class="form-block">
+              <label>Address*</label>
+              <input class="border required" type="text" name="address" />
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-              <div class="form-block">
-                <label for="property_longitude">Longitude</label>
-                <input type="text" name="longitude" class="border" id="property_longitude" />
+
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-block">
+                  <label for="property_latitude">Latitude</label>
+                  <input type="text" name="latitude" class="border" id="property_latitude" />
+                </div>
               </div>
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-block">
+                  <label for="property_longitude">Longitude</label>
+                  <input type="text" name="longitude" class="border" id="property_longitude" />
+                </div>
+              </div>
+            </div><!-- end row -->
+
+            <input size="25" id="pac-input" class="map-input controls" type="text" placeholder="Search" name="map_input">
+            <div id="map-single"></div>
+
+            <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+            <div class="clear"></div>
+          </div><!-- end location -->
+
+          <div class="multi-page-form-content">
+
+            <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+
+            <table class="property-submit-title">
+              <tr>
+                <td><span class="property-submit-num">4</span></td>
+                <td>
+                  <h4>Amenities</h4>
+                  <p>Choose all the amneties that are available at the property.</p>
+                </td>
+              </tr>
+            </table>
+
+            <div class="form-block amenities-list">
+              <label><input type="checkbox" name="amenities[]" value="ac" />Air Conditioning</label>
+              <label><input type="checkbox" name="amenities[]" value="balcony" />Balcony</label>
+              <label><input type="checkbox" name="amenities[]" value="bedding" />Bedding</label>
+              <label><input type="checkbox" name="amenities[]" value="cable" />Cable TV</label>
+              <label><input type="checkbox" name="amenities[]" value="coffee pot" />Coffee Pot</label>
+              <label><input type="checkbox" name="amenities[]" value="dishwasher" />Dishwasher</label>
+              <label><input type="checkbox" name="amenities[]" value="fridge" />Fridge</label>
+              <label><input type="checkbox" name="amenities[]" value="grill" />Grill</label>
+              <label><input type="checkbox" name="amenities[]" value="heating" />Heating</label>
+              <label><input type="checkbox" name="amenities[]" value="internet" />Internet</label>
+              <label><input type="checkbox" name="amenities[]" value="microwave" />Microwave</label>
+              <label><input type="checkbox" name="amenities[]" value="oven" />Oven</label>
+              <label><input type="checkbox" name="amenities[]" value="parking" />Parking</label>
+              <label><input type="checkbox" name="amenities[]" value="pool" />Pool</label>
+              <label><input type="checkbox" name="amenities[]" value="Toaster" />Toaster</label>
             </div>
-          </div><!-- end row -->
 
-          <input size="25" id="pac-input" class="map-input controls" type="text" placeholder="Search" name="map_input">
-          <div id="map-single"></div>
+            <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+            <div class="clear"></div>
+          </div><!-- end amenities -->
 
-          <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
-          <div class="clear"></div>
-        </div><!-- end location -->
+          <div class="multi-page-form-content" id="owner-info">
 
-        <div class="multi-page-form-content">
+            <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
 
-          <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
+            <table class="property-submit-title">
+              <tr>
+                <td><span class="property-submit-num">5</span></td>
+                <td>
+                  <h4>Agent Info</h4>
+                  <p>Please choose an agent below.</p>
+                </td>
+              </tr>
+            </table>
 
-          <table class="property-submit-title">
-            <tr>
-              <td><span class="property-submit-num">4</span></td>
-              <td>
-                <h4>Amenities</h4>
-                <p>Choose all the amneties that are available at the property.</p>
-              </td>
-            </tr>
-          </table>
+            <div class="form-block form-block-agent-options form-block-select-agent border">
+              <label for="agent">Select Agent</label>
+              <select name="agent" class="border">
+                <option value="">Select Agent...</option>
+                <?php
+                $sql = "SELECT * FROM tbl_user ORDER BY fname ASC";
+                $res = mysqli_query($con, $sql);
 
-          <div class="form-block amenities-list">
-            <label><input type="checkbox" name="amenities[]" value="ac" />Air Conditioning</label>
-            <label><input type="checkbox" name="amenities[]" value="balcony" />Balcony</label>
-            <label><input type="checkbox" name="amenities[]" value="bedding" />Bedding</label>
-            <label><input type="checkbox" name="amenities[]" value="cable" />Cable TV</label>
-            <label><input type="checkbox" name="amenities[]" value="coffee pot" />Coffee Pot</label>
-            <label><input type="checkbox" name="amenities[]" value="dishwasher" />Dishwasher</label>
-            <label><input type="checkbox" name="amenities[]" value="fridge" />Fridge</label>
-            <label><input type="checkbox" name="amenities[]" value="grill" />Grill</label>
-            <label><input type="checkbox" name="amenities[]" value="heating" />Heating</label>
-            <label><input type="checkbox" name="amenities[]" value="internet" />Internet</label>
-            <label><input type="checkbox" name="amenities[]" value="microwave" />Microwave</label>
-            <label><input type="checkbox" name="amenities[]" value="oven" />Oven</label>
-            <label><input type="checkbox" name="amenities[]" value="parking" />Parking</label>
-            <label><input type="checkbox" name="amenities[]" value="pool" />Pool</label>
-            <label><input type="checkbox" name="amenities[]" value="Toaster" />Toaster</label>
-          </div>
-
-          <span class="button button-icon small right form-next"><i class="fa fa-angle-right"></i> Next</span>
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
-          <div class="clear"></div>
-        </div><!-- end amenities -->
-
-        <div class="multi-page-form-content" id="owner-info">
-
-          <span class="button button-icon small right form-prev"><i class="fa fa-angle-left"></i> Previous</span>
-
-          <table class="property-submit-title">
-            <tr>
-              <td><span class="property-submit-num">5</span></td>
-              <td>
-                <h4>Agent Info</h4>
-                <p>Please choose an agent below.</p>
-              </td>
-            </tr>
-          </table>
-
-          <div class="form-block form-block-agent-options form-block-select-agent border">
-            <label for="agent">Select Agent</label>
-            <select name="agent" class="border">
-              <?php
-              $sql = "SELECT * FROM tbl_user ORDER BY name ASC";
-              $res = mysqli_query($con, $sql);
-
-              if(mysqli_num_rows($res) > 0) {
-                while($row = mysqli_fetch_assoc($res)) {
-                  echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                if(mysqli_num_rows($res) > 0) {
+                  while($row = mysqli_fetch_assoc($res)) {
+                    echo '<option value="'.$row['id'].'">'.$row['fname'].' '.$row['lname'].'</option>';
+                  }
                 }
-              }
-              ?>
-            </select>
-          </div>
-          <div class="center"><button type="submit" name="submit" class="button button-icon large alt"><i class="fa fa-angle-right"></i> Submit Property</button></div>
-          <div class="clear"></div>
-        </div><!-- end agent info -->
+                ?>
+              </select>
+            </div>
+            <div class="center">
+              <button type="submit" name="submit" class="button button-icon large alt"><i class="fa fa-angle-right"></i> Submit Property</button>
+            </div>
+            <div class="clear"></div>
+          </div><!-- end agent info -->
 
-      </form>
+        </form>
 
-    </div><!-- end col -->
-  </div><!-- end row -->
+      </div><!-- end col -->
+    </div><!-- end row -->
 
-</div><!-- end container -->
+  </div><!-- end container -->
 </section>
 
 <section class="module cta newsletter">

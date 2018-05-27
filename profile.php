@@ -11,9 +11,9 @@ if (isset($_POST['submit'])) {
 	$fname = mysqli_real_escape_string($con, strip_tags(trim($_POST["fname"])));
 	$lname = mysqli_real_escape_string($con, strip_tags(trim($_POST["lname"])));
 	$email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
-	$pass1 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"])));
-	$pass2 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass2"])));
-	$pass3 = mysqli_real_escape_string($con, strip_tags(trim($_POST["pass3"])));
+	$pass1 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"]))));
+	$pass2 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass2"]))));
+	$pass3 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass3"]))));
 	$phone = mysqli_real_escape_string($con, strip_tags(trim($_POST["phone"])));
 	$bio = mysqli_real_escape_string($con, strip_tags(trim($_POST["bio"])));
 	$facebook = mysqli_real_escape_string($con, strip_tags(trim($_POST["facebook"])));
@@ -22,15 +22,14 @@ if (isset($_POST['submit'])) {
 
 	if ($fname != '' && $lname != '' && $email != '' && $phone != '' && $bio != '' && $facebook != '' && $twitter != '' && $linkedin != '' && $pass1 != '' && $pass2 != '' && $pass3 != '') {
 
-		$sql = "SELECT * FROM tbl_users WHERE email='".$email."' AND password='".$pass1."'";
+		$sql = "SELECT * FROM tbl_user WHERE email='".$email."' AND password='".$pass1."'";
 		$res = mysqli_query($con, $sql);
 
 		if (mysqli_num_rows($res) > 0) {
 
 			if ($pass2 == $pass3) {
 
-				/*$sql = "INSERT INTO tbl_agents(fname, lname, email, password)
-				VALUES('".$fname."', '".$lname."', '".$email."', '".$pass1."')";*/
+				$sql = "UPDATE `tbl_user` SET `fname`='".$fname."', `lname`='".$lname."', `email`='".$email."', `phone`='".$phone."', `bio`='".$bio."', `facebook`='".$facebook."', `twitter`='".$twitter."', `linkedin`='".$linkedin."', `password`='".$pass2."' WHERE id = '".$_SESSION['user_id']."'";
 				mysqli_query($con, $sql);
 				$_SESSION['success'] = 'Your details have been successfully updated, please log in.';
 				header("location:logout.php");
