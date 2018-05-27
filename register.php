@@ -44,7 +44,7 @@ include 'header.php';
 <section class="subheader">
   <div class="container">
     <h1>Register</h1>
-    <div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> <a href="index.php" class="current">Register</a></div>
+    <div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> <a href="#" class="current">Register</a></div>
     <div class="clear"></div>
   </div>
 </section>
