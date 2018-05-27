@@ -87,7 +87,7 @@ include 'header.php';
 					<div class="row">
 						<div class="col-lg-3">
 							<div class="edit-avatar">
-								<img class="profile-avatar" src="images/agent-img3.jpg" alt="" />
+								<img class="profile-avatar" src="<?php echo $_SESSION['image']; ?>" alt="" />
 								<a href="#" class="button small">Change Avatar</a>
 							</div>
 						</div>

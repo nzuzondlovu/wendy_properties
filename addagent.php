@@ -1,7 +1,10 @@
 <?php 
 include 'functions.php';
 
-
+if(isset($_SESSION['user_id']) == '' ) {
+  $_SESSION['failure'] = 'Please login to view page.';
+  header("location:login.php");
+}
 
 include 'header.php';
 ?>
