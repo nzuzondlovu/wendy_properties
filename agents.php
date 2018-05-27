@@ -1,7 +1,7 @@
 <?php
 include 'functions.php';
 
-$sql = "SELECT * FROM tbl_agent";
+$sql = "SELECT * FROM tbl_user";
 $res = mysqli_query($con, $sql);
 
 $num = 0;
@@ -62,42 +62,27 @@ include 'header.php';
       echo '
       <div class="col-lg-3 col-md-3">
       <div class="agent shadow-hover">
-      <a href="#" class="agent-img">
+      <a href="agent.php?id='.$row['id'].'" class="agent-img">
       <div class="img-fade"></div>
       <div class="button alt agent-tag">24 Properties</div>
-      <img src="images/agent-img1.jpg" alt="" />
+      <img src="'.$row['image'].'" alt="" />
       </a>
       <div class="agent-content">
       <div class="agent-details">
-      <h4><a href="#">Sarah Parker</a></h4>
+      <h4><a href="#">'.$row['fname'].' '.$row['lname'].'</a></h4>
       <p><i class="fa fa-tag icon"></i>Selling Agent</p>
-      <p><i class="fa fa-envelope icon"></i>sparker@homely.com</p>
-      <p><i class="fa fa-phone icon"></i>(123) 456-6789</p>
+      <p><i class="fa fa-envelope icon"></i>'.$row['email'].'</p>
+      <p><i class="fa fa-phone icon"></i>'.$row['phone'].'</p>
       </div>
       <div class="center">
       <ul class="social-icons circle">
-      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-      <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+      <li><a href="'.$row['facebook'].'"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="'.$row['twitter'].'"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="'.$row['linkedin'].'"><i class="fa fa-linkedin"></i></a></li>
       </ul>
       </div>
       </div>
       </div>
-      </div>
-
-      <div class="pagination">
-      <div class="center">
-      <ul>
-      <li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
-      <li class="current"><a href="#" class="button small grey">1</a></li>
-      <li><a href="#" class="button small grey">2</a></li>
-      <li><a href="#" class="button small grey">3</a></li>
-      <li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
-      </ul>
-      </div>
-      <div class="clear"></div>
       </div>';
     }
   } else {
@@ -108,6 +93,19 @@ include 'header.php';
     </div>';
   }
   ?>  
+
+  <div class="pagination">
+    <div class="center">
+      <ul>
+        <li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
+        <li class="current"><a href="#" class="button small grey">1</a></li>
+        <li><a href="#" class="button small grey">2</a></li>
+        <li><a href="#" class="button small grey">3</a></li>
+        <li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
+      </ul>
+    </div>
+    <div class="clear"></div>
+  </div>
 </div><!-- end row -->
 
 </div><!-- end container -->

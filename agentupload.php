@@ -55,7 +55,7 @@ if ($fname != '' && $lname != '' && $email != '' && $phone != '' && $pass1 != ''
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
             $sql = "INSERT INTO `tbl_user`(`fname`, `lname`, `email`, `phone`, `bio`, `facebook`, `twitter`, `linkedin`, `image`, `password`)
-            VALUES('".$fname."', '".$lname."', '".$email."', '".$phone."', '".$bio."', '".$facebook."', '".$twitter."', '".$linkedin."', '".$image."', '".$pass1."')";
+            VALUES('".$fname."', '".$lname."', '".$email."', '".$phone."', '".$bio."', '".$facebook."', '".$twitter."', '".$linkedin."', '".$target_file."', '".$pass1."')";
             mysqli_query($con, $sql);
             //$_SESSION['success'] = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
             $_SESSION['success'] = "New agent has been added succesfully.";
