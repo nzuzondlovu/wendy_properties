@@ -128,7 +128,19 @@
               } 
               ?>
               <ul class="nav navbar-nav right">
-                <li><a href="index.php">Home</a></li>
+                <?php
+            //Check if user logged in, display logout
+                if (isset($_SESSION['user_id'])) {
+                  echo '
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="dashboard.php">Dashboard</a></li>';
+                } else {
+              //Display main index page
+                  echo '
+                  <li><a href="index.php">Home</a></li>';
+                }
+                ?> 
+                
                 <li><a href="list.php">Properties</a></li>
                 <li><a href="agents.php">Agents</a></li>
                 <li><a href="contact.php">Contact</a></li>

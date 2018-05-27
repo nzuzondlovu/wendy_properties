@@ -181,120 +181,12 @@ include 'header.php';
 			</div><!-- end col -->
 			
 			<div class="col-lg-3 col-md-3">
-				
-				<div class="widget widget-sidebar recent-properties">
-					<h4><span>Recent Properties</span> <img src="images/divider-half.png" alt="" /></h4>
-					<div class="widget-content">
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/property-img1.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">Beautiful Waterfront Condo</a></h5>
-									<p><strong>$1,800</strong> Per Month</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/property-img2.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">Family Home</a></h5>
-									<p><strong>$500,000</strong></p>
-								</div>
-							</div>
-						</div>
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/property-img3.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">Ubran Apartment</a></h5>
-									<p><strong>$1,800</strong> Per Month</p>
-								</div>
-							</div>
-						</div>
-
-					</div><!-- end widget content -->
-				</div><!-- end widget -->
-
-				<div class="widget widget-sidebar recent-posts">
-					<h4><span>Recent Blog Posts</span> <img src="images/divider-half.png" alt="" /></h4>
-					<div class="widget-content">
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/blog-img1-thumb.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">6 Tips to help you sell your house</a></h5>
-									<p><i class="fa fa-calendar-o"></i> Feb, 18th 2017</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/blog-img2-thumb.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">Common mistakes to avoid when moving </a></h5>
-									<p><i class="fa fa-calendar-o"></i> Feb, 18th 2017</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="recent-property">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="images/blog-img3-thumb.jpg" alt="" /></a></div>
-								<div class="col-lg-8 col-md-8 col-sm-8">
-									<h5><a href="#">How to design a minimal but productive home office </a></h5>
-									<p><i class="fa fa-calendar-o"></i> Feb, 18th 2017</p>
-								</div>
-							</div>
-						</div>
-
-					</div><!-- end widget content -->
-				</div><!-- end widget -->
-				
-				<div class="widget widget-sidebar recent-properties">
-					<h4><span>Quick Links</span> <img src="images/divider-half.png" alt="" /></h4>
-					<div class="widget-content box">
-						<ul class="bullet-list">
-							<li><a href="#">Featured Properties</a></li>
-							<li><a href="#">Featured Agents</a></li>
-							<li><a href="#">Terms & Conditions</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">Frequently Asked Questions</a></li>
-							<li><a href="#">Login</a></li>
-							<li><a href="#">Submit a Property</a></li>
-						</ul>
-					</div><!-- end widget content -->
-				</div><!-- end widget -->
-				
+				<?php include 'sidebar.php'; ?>				
 			</div><!-- end col -->
 			
 		</div><!-- end row -->
 	</div><!-- end container -->
 </section>
-
-<section class="module cta newsletter">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-7 col-md-7">
-				<h3>Sign up for our <strong>newsletter.</strong></h3>
-				<p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-			</div>
-			<div class="col-lg-5 col-md-5">
-				<form method="post" id="newsletter-form" class="newsletter-form">
-					<input type="email" placeholder="Your email..." />
-					<button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-				</form>
-			</div>
-		</div><!-- end row -->
-	</div><!-- end container -->
-</section>
-
-
 
 <?php 
 include 'footer.php';
