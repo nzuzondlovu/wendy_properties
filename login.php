@@ -21,6 +21,11 @@ if (isset($_POST['submit'])) {
       $_SESSION['fname'] = $user_details['fname'];
       $_SESSION['lname'] = $user_details['lname'];
       $_SESSION['email'] = $user_details['email'];
+      $_SESSION['phone'] = $user_details['phone'];
+      $_SESSION['bio'] = $user_details['bio'];
+      $_SESSION['facebook'] = $user_details['facebook'];
+      $_SESSION['twitter'] = $user_details['twitter'];
+      $_SESSION['linkedin'] = $user_details['linkedin'];
 
 
       $_SESSION['success'] = 'You have been logged in succesfully.';
