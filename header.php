@@ -6,7 +6,7 @@
   <meta name="author" content="Rype Creative [Chris Gipple]">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homely | A real estate theme</title>
+  <title><?php echo $sitename; ?> | A real estate theme</title>
 
   <!-- CSS file links -->
   <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
