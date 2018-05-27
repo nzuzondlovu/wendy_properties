@@ -1,4 +1,19 @@
 <?php 
+include 'functions.php';
+
+$id = mysqli_real_escape_string($con, strip_tags(trim($_GET["id"])));
+$sql = "SELECT * FROM tbl_prop WHERE id=".$id."";
+$res = mysqli_query($con, $sql);
+
+if (isset($id) && $id != '' && mysqli_num_rows($res) > 0) {
+	
+	$row = mysqli_fetch_assoc($res);
+
+} else {
+	header('Location: list.php');
+}
+
+
 include 'header.php';
 ?>
 
@@ -6,7 +21,7 @@ include 'header.php';
 <section class="subheader">
   <div class="container">
     <h1>Property Single</h1>
-    <div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> Properties <i class="fa fa-angle-right"></i> <a href="#" class="current">123 Smith Drive</a></div>
+    <div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> Properties <i class="fa fa-angle-right"></i> <a href="#" class="current"><?php echo $row['address']; ?></a></div>
     <div class="clear"></div>
   </div>
 </section>
@@ -20,24 +35,24 @@ include 'header.php';
 			<div class="property-single-item property-main">
 				<div class="property-header">
 					<div class="property-title">
-						<h4>Modern Family Home</h4>
-            <div class="property-price-single right">$255,000 <span>Per Month</span></div>
-						<p class="property-address"><i class="fa fa-map-marker icon"></i>123 Smith Dr, Annapolis, MD</p>
+						<h4><?php echo $row['title']; ?></h4>
+            <div class="property-price-single right">R<?php echo $row['price']; ?> <span>Per Month</span></div>
+						<p class="property-address"><i class="fa fa-map-marker icon"></i><?php echo $row['address']; ?></p>
             <div class="clear"></div>
 					</div>
 					<div class="property-single-tags">
 						<div class="property-tag button alt featured">Featured</div>
-						<div class="property-tag button status">For Rent</div>
-						<div class="property-type right">Property Type: <a href="#">Family Home</a></div>
+						<div class="property-tag button status"><?php echo $row['status']; ?></div>
+						<div class="property-type right">Property Type: <a href="#"><?php echo $row['type']; ?></a></div>
 					</div>
 				</div>
 
 				<table class="property-details-single">
 					<tr>
-						<td><i class="fa fa-bed"></i> <span>3</span> Beds</td>
-						<td><i class="fa fa-tint"></i> <span>2</span> Baths</td>
-						<td><i class="fa fa-expand"></i> <span>25,000</span> Sq Ft</td>
-						<td><i class="fa fa-car"></i> <span>1</span> Garage</td>
+						<td><i class="fa fa-bed"></i> <span><?php echo $row['beds']; ?></span> Beds</td>
+						<td><i class="fa fa-tint"></i> <span><?php echo $row['baths']; ?></span> Baths</td>
+						<td><i class="fa fa-expand"></i> <span><?php echo $row['area']; ?></span> Sq Mtr</td>
+						<td><i class="fa fa-car"></i> <span><?php echo $row['garages']; ?></span> Garage</td>
 					</tr>
 				</table>
 
@@ -48,22 +63,22 @@ include 'header.php';
           </div>
           <div class="slide-counter"></div>
           <div class="slider slider-property-gallery">
-            <div class="slide"><img src="images/property-img5.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img6.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img3.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img4.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img1.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img2.jpg" alt="" /></div>
-            <div class="slide"><img src="images/property-img3.jpg" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
+            <div class="slide"><img src="<?php echo $row['image']; ?>" alt="" /></div>
           </div>
           <div class="slider property-gallery-pager">
-            <a class="property-gallery-thumb"><img src="images/property-img5.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img6.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img3.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img4.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img1.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img2.jpg" alt="" /></a>
-            <a class="property-gallery-thumb"><img src="images/property-img3.jpg" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
+            <a class="property-gallery-thumb"><img src="<?php echo $row['image']; ?>" alt="" /></a>
           </div>
         </div>
 
@@ -74,19 +89,7 @@ include 'header.php';
 					<span>Description</span> <img class="divider-hex" src="images/divider-half.png" alt="" />
 					<div class="divider-fade"></div>
 				</h4>
-				<p>Ut euismod ultricies sollicitudin. Curabitur sed dapibus nulla. Nulla eget iaculis lectus. Mauris ac maximus neque. Nam 
-				in mauris quis libero sodales eleifend. Morbi varius, nulla sit amet rutrum elementum, est elit finibus tellus, ut 
-				tristique elit risus at metus. Sed fermentum, lorem vitae efficitur imperdiet, neque velit tristique turpis, et iaculis 
-				mi tortor finibus turpis.
-				</p>
-
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. 
-				Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. 
-				Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, 
-				a consequat purus viverra a. Aliquam pellentesque nibh et nibh feugiat gravida. Maecenas ultricies, diam vitae semper 
-				placerat, velit risus accumsan nisl, eget tempor lacus est vel nunc. Proin accumsan elit sed neque euismod fringilla. 
-				Curabitur lobortis nunc velit, et fermentum urna dapibus non. Vivamus magna lorem, elementum id gravida ac, laoreet 
-				tristique augue. Maecenas dictum lacus eu nunc porttitor, ut hendrerit arcu efficitur.</p>
+				<p><?php echo $row['description']; ?></p>
 
 				<div class="tabs">
 			        <ul>
@@ -96,11 +99,11 @@ include 'header.php';
 			        </ul>
 			        <div id="tabs-1" class="ui-tabs-hide">
 			          <ul class="additional-details-list">
-			          	<li>Property ID: <span>11234</span></li>
-			          	<li>Contact: <span>Rent</span></li>
-			          	<li>Type: <span>Single Family Home</span></li>
+			          	<li>Property ID: <span><?php echo $row['id']; ?></span></li>
+			          	<li>Contact: <span><?php echo $row['status']; ?></span></li>
+			          	<li>Type: <span><?php echo $row['type']; ?></span></li>
 			          	<li>Year Built: <span>2001</span></li>
-			          	<li>Lot Dimensions: <span>50x60 ft</span></li>
+			          	<li>Lot Dimensions: <span><?php echo $row['area']; ?></span></li>
 			          	<li>Deposit Amount: <span>20%</span></li>
 			          </ul>
 			        </div>
