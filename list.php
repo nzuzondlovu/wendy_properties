@@ -1,6 +1,8 @@
 <?php 
 include 'functions.php';
 
+$sql = "SELECT * FROM tbl_prop ";
+
 if (isset($_POST['submit_search'])) {
 
   $type = mysqli_real_escape_string($con, strip_tags(trim($_POST["type"])));
@@ -14,15 +16,27 @@ if (isset($_POST['submit_search'])) {
 
   if ($type != '' && $location != '' && $priceMin != '' && $priceMax != '' && $beds != '' && $baths != '' && $areaMin != '' && $areaMax != '') {
 
-    echo $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = ".$type." OR (`area` BETWEEN ".$areaMin." AND ".$areaMax."";
-    $res = mysqli_query($con, $sql);
+    echo $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = ".$type." OR (`area` BETWEEN ".$areaMin." AND ".$areaMax."";    
 
   } else {
     //header('Location: index.php');
-  }
-  
-
+  } 
 }
+
+if (isset($_POST['submit_header'])) {
+    
+    $phrase = mysqli_real_escape_string($con, strip_tags(trim($_POST["phrase"])));
+
+    if ($phrase != '') {
+
+      $sql = "SELECT * FROM tbl_prop WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%'";
+    }
+  } else {
+    # code...
+  }
+
+$res = mysqli_query($con, $sql);
+$num = mysqli_num_rows($res);
 
 include 'header.php';
 ?>
@@ -40,7 +54,7 @@ include 'header.php';
   <div class="container">
 
    <div class="property-listing-header">
-    <span class="property-count left">8 properties found</span>
+    <span class="property-count left"><?php echo $num; ?> properties found</span>
     <form action="#" method="get" class="right">
      <select name="sort_by" onchange="this.form.submit();">
       <option value="date_desc">New to Old</option>
@@ -58,8 +72,9 @@ include 'header.php';
 
 <div class="row">
   <?php
-  echo $sql;
+
   if (mysqli_num_rows($res) > 0) {
+
     while ($row = mysqli_fetch_assoc($res)) {
 
       echo '
@@ -121,26 +136,6 @@ include 'header.php';
 
 </div><!-- end container -->
 </section>
-
-<section class="module cta newsletter">
-  <div class="container">
-   <div class="row">
-    <div class="col-lg-7 col-md-7">
-     <h3>Sign up for our <strong>newsletter.</strong></h3>
-     <p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-   </div>
-   <div class="col-lg-5 col-md-5">
-     <form method="post" id="newsletter-form" class="newsletter-form">
-      <input type="email" placeholder="Your email..." />
-      <button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-    </form>
-  </div>
-</div><!-- end row -->
-</div><!-- end container -->
-</section>
-
-
-
 
 <?php 
 include 'footer.php';
