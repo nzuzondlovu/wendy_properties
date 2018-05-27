@@ -68,21 +68,21 @@ include 'header.php';
 		<div class="row">
 			<?php include 'links.php'; ?>;
 			<div class="col-lg-9 col-md-9">
-<div class="col-md-12">
-          <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
-            <div class="alert alert-success">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-            </div>
-          <?php } ?>
+				<div class="col-md-12">
+					<?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
+						<div class="alert alert-success">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+						</div>
+					<?php } ?>
 
-          <?php if(isset($_SESSION['failure']) && $_SESSION['failure'] != '') { ?>
-            <div class="alert alert-danger">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <?php echo $_SESSION['failure']; unset($_SESSION['failure']); ?>
-            </div>
-          <?php } ?>
-        </div>
+					<?php if(isset($_SESSION['failure']) && $_SESSION['failure'] != '') { ?>
+						<div class="alert alert-danger">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?php echo $_SESSION['failure']; unset($_SESSION['failure']); ?>
+						</div>
+					<?php } ?>
+				</div>
 				<form method="POST">
 					<div class="row">
 						<div class="col-lg-3">
