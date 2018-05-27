@@ -54,7 +54,7 @@ include 'header.php';
 
     <div class="row">
       <div class="col-lg-4 col-lg-offset-4"> 
-        <p>Already have an account? <strong><a href="login.html">Login here.</a></strong></p>
+        <p>Already have an account? <strong><a href="login.php">Login here.</a></strong></p>
         <div class="col-md-12">
             <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
             <div class="alert alert-success">
