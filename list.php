@@ -1,10 +1,13 @@
 <?php 
+//include the fucntions scripts
 include 'functions.php';
 
+//default sql statement
 $sql = "SELECT * FROM tbl_prop ";
 
 if (isset($_POST['submit_search'])) {
 
+  //sanitize input to avoid sql injections
   $type = mysqli_real_escape_string($con, strip_tags(trim($_POST["type"])));
   $location = mysqli_real_escape_string($con, strip_tags(trim($_POST["location"])));
   $priceMin = mysqli_real_escape_string($con, strip_tags(trim($_POST["priceMin"])));
@@ -14,28 +17,45 @@ if (isset($_POST['submit_search'])) {
   $areaMin = mysqli_real_escape_string($con, strip_tags(trim($_POST["areaMin"])));
   $areaMax = mysqli_real_escape_string($con, strip_tags(trim($_POST["areaMax"])));
 
-  if ($type != '' && $location != '' && $priceMin != '' && $priceMax != '' && $beds != '' && $baths != '' && $areaMin != '' && $areaMax != '') {
+  //check if is empty
+  if ($priceMin != '' && $priceMax != '' && $areaMin != '' && $areaMax != '') {
 
-    echo $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = ".$type." OR (`area` BETWEEN ".$areaMin." AND ".$areaMax."";    
+    //make values empty, to be excluded in the search
+    if ($type == 'Any') {
+      $type = "''";
+    }
+    if ($location == 'Any') {
+      $type = "''";
+    }
+    if ($beds == 'Any') {
+      $type = "''";
+    }
+    if ($baths == 'Any') {
+      $type = "''";
+    }
+
+    //sql code
+    $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = '".$type."' OR `address` = '".$location."' OR (`area` BETWEEN ".$areaMin." AND ".$areaMax.")";    
 
   } else {
-    //header('Location: index.php');
-  } 
+    $_SESSION['failure'] = 'Please make sure all fields are filled in.';
+  }
 }
 
 if (isset($_POST['submit_header'])) {
-    
-    $phrase = mysqli_real_escape_string($con, strip_tags(trim($_POST["phrase"])));
 
-    if ($phrase != '') {
+  $phrase = mysqli_real_escape_string($con, strip_tags(trim($_POST["phrase"])));
 
-      $sql = "SELECT * FROM tbl_prop WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%'";
-    }
-  } else {
-    # code...
+  if ($phrase != '') {
+
+      //sql search statement
+    $sql = "SELECT * FROM tbl_prop WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%'";
   }
+}
 
+//run query
 $res = mysqli_query($con, $sql);
+//get number of rows
 $num = mysqli_num_rows($res);
 
 include 'header.php';
@@ -71,10 +91,26 @@ include 'header.php';
 </div><!-- end property listing header -->
 
 <div class="row">
-  <?php
+  <div class="col-md-12">
+    <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+      </div>
+    <?php } ?>
 
+    <?php if(isset($_SESSION['failure']) && $_SESSION['failure'] != '') { ?>
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $_SESSION['failure']; unset($_SESSION['failure']); ?>
+      </div>
+    <?php } ?>
+  </div>
+  <?php
+  echo $sql ;
   if (mysqli_num_rows($res) > 0) {
 
+    //while there is data display
     while ($row = mysqli_fetch_assoc($res)) {
 
       echo '
