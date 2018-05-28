@@ -2,8 +2,22 @@
 //include the fucntions scripts
 include 'functions.php';
 
+//pagination variables
+$num_rec_per_page=6;
+
+if (isset($_GET["page"])) {
+
+  $page  = $_GET["page"];
+} else {
+
+  $page=1;
+}
+
+
+$start_from = ($page-1) * $num_rec_per_page;
+
 //default sql statement
-$sql = "SELECT * FROM tbl_prop ";
+$sql = "SELECT * FROM tbl_prop LIMIT $start_from, $num_rec_per_page";
 
 if (isset($_POST['submit_search'])) {
 
@@ -35,7 +49,7 @@ if (isset($_POST['submit_search'])) {
     }
 
     //sql code
-    $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = '".$type."' OR `address` = '".$location."' OR (`area` BETWEEN ".$areaMin." AND ".$areaMax.")";    
+    $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = '".$type."' OR `address` = '".$location."' OR (`area` BETWEEN ".$areaMin." AND ".$areaMax.") LIMIT $start_from, $num_rec_per_page";    
 
   } else {
     $_SESSION['failure'] = 'Please make sure all fields are filled in.';
@@ -49,7 +63,10 @@ if (isset($_POST['submit_header'])) {
   if ($phrase != '') {
 
       //sql search statement
-    $sql = "SELECT * FROM tbl_prop WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%'";
+    $sql = "SELECT * FROM tbl_prop WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%' LIMIT $start_from, $num_rec_per_page";
+
+    //to be used in the pagination
+    $_SESSION['sphrase'] = "WHERE id LIKE '%".$phrase."%' OR title LIKE '%".$phrase."%' OR price LIKE '%".$phrase."%' OR beds LIKE '%".$phrase."%' OR baths LIKE '%".$phrase."%' OR garages LIKE '%".$phrase."%' OR area LIKE '%".$phrase."%' OR type LIKE '%".$phrase."%' OR status LIKE '%".$phrase."%' OR description LIKE '%".$phrase."%' OR address LIKE '%".$phrase."%' OR latitude LIKE '%".$phrase."%' OR longitude LIKE '%".$phrase."%' OR agent LIKE '%".$phrase."%' OR date LIKE '%".$phrase."%' LIMIT $start_from, $num_rec_per_page";
   }
 }
 
@@ -107,7 +124,7 @@ include 'header.php';
     <?php } ?>
   </div>
   <?php
-  echo $sql ;
+
   if (mysqli_num_rows($res) > 0) {
 
     //while there is data display
@@ -157,18 +174,51 @@ include 'header.php';
   ?>
 </div><!-- end row -->
 
+<?php
+
+$sql = "SELECT * FROM tbl_prop ".$_SESSION['sphrase'];
+$rs_result = mysqli_query($con, $sql); 
+$total_records = mysqli_num_rows($rs_result);  
+$total_pages = ceil($total_records / $num_rec_per_page);
+
+if ($total_pages == 0) {
+  $total_pages = 1;
+}
+
+echo '
 <div class="pagination">
-  <div class="center">
-    <ul>
-      <li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
-      <li class="current"><a href="#" class="button small grey">1</a></li>
-      <li><a href="#" class="button small grey">2</a></li>
-      <li><a href="#" class="button small grey">3</a></li>
-      <li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
-    </ul>
-  </div>
-  <div class="clear"></div>
+<div class="center">
+<ul>
+<li><a href="?page=1" class="button small grey"><i class="fa fa-angle-left"></i></a></li>'; 
+
+if ($page < 4) {
+ for ($i=1; $i<$page; $i++) {
+   echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+ };
+} else {
+  for ($i=($page-3); $i<$page; $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+}
+echo '<li class="current"><a href="?page='.$page.'" class="button small grey">'.$page.'</a></li>';
+
+if ($page >= ($total_pages - 3)) {
+  for ($i=($page+1); $i<=($total_pages); $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+} else {
+  for ($i=($page+1); $i<=($page+3); $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+}
+
+echo '
+<li><a href="?page='.$total_pages.'" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
+</ul>
 </div>
+<div class="clear"></div>
+</div>';
+?>
 
 </div><!-- end container -->
 </section>

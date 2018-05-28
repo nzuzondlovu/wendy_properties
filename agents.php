@@ -1,6 +1,19 @@
 <?php
 include 'functions.php';
 
+//pagination variables
+$num_rec_per_page=8;
+
+if (isset($_GET["page"])) {
+
+  $page  = $_GET["page"];
+} else {
+
+  $page=1;
+}
+
+$start_from = ($page-1) * $num_rec_per_page;
+
 $sql = "SELECT * FROM tbl_user";
 $res = mysqli_query($con, $sql);
 
@@ -94,41 +107,55 @@ include 'header.php';
   }
   ?>  
 
-  <div class="pagination">
-    <div class="center">
-      <ul>
-        <li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
-        <li class="current"><a href="#" class="button small grey">1</a></li>
-        <li><a href="#" class="button small grey">2</a></li>
-        <li><a href="#" class="button small grey">3</a></li>
-        <li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
-      </ul>
-    </div>
-    <div class="clear"></div>
-  </div>
+<?php
+
+$sql = "SELECT * FROM tbl_user ";
+$rs_result = mysqli_query($con, $sql); 
+$total_records = mysqli_num_rows($rs_result);  
+$total_pages = ceil($total_records / $num_rec_per_page);
+
+if ($total_pages == 0) {
+  $total_pages = 1;
+}
+
+echo '
+<div class="pagination">
+<div class="center">
+<ul>
+<li><a href="?page=1" class="button small grey"><i class="fa fa-angle-left"></i></a></li>'; 
+
+if ($page < 4) {
+ for ($i=1; $i<$page; $i++) {
+   echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+ };
+} else {
+  for ($i=($page-3); $i<$page; $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+}
+echo '<li class="current"><a href="?page='.$page.'" class="button small grey">'.$page.'</a></li>';
+
+if ($page >= ($total_pages - 3)) {
+  for ($i=($page+1); $i<=($total_pages); $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+} else {
+  for ($i=($page+1); $i<=($page+3); $i++) {
+    echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+  };
+}
+
+echo '
+<li><a href="?page='.$total_pages.'" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
+</ul>
+</div>
+<div class="clear"></div>
+</div>';
+?>
 </div><!-- end row -->
 
 </div><!-- end container -->
 </section>
-
-<section class="module cta newsletter">
-  <div class="container">
-   <div class="row">
-    <div class="col-lg-7 col-md-7">
-     <h3>Sign up for our <strong>newsletter.</strong></h3>
-     <p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-   </div>
-   <div class="col-lg-5 col-md-5">
-     <form method="post" id="newsletter-form" class="newsletter-form">
-      <input type="email" placeholder="Your email..." />
-      <button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-    </form>
-  </div>
-</div><!-- end row -->
-</div><!-- end container -->
-</section>
-
-
 
 <?php 
 include 'footer.php';

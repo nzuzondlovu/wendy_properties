@@ -57,7 +57,7 @@ include 'header.php';
 
 				if (mysqli_num_rows($res) > 0) {
 					echo '
-					<table class="my-properties-list">
+					<table class="my-properties-list" id="dataTable">
 					<tr>
 					<th>Image</th>
 					<th>Property</th>
