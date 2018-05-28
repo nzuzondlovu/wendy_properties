@@ -48,16 +48,19 @@ if (isset($_POST['submit_search'])) {
       $type = "''";
     }
 
-    //sql code
+    //sql code to search the table
     $sql = "SELECT * FROM tbl_prop WHERE (`price` BETWEEN ".$priceMin." AND ".$priceMax.") OR `beds` = ".$beds." OR `baths` = ".$baths." OR `type` = '".$type."' OR `address` = '".$location."' OR (`area` BETWEEN ".$areaMin." AND ".$areaMax.") LIMIT $start_from, $num_rec_per_page";    
 
   } else {
+
+    //upon a failure set failure session to ...
     $_SESSION['failure'] = 'Please make sure all fields are filled in.';
   }
 }
 
 if (isset($_POST['submit_header'])) {
 
+  //sanitize the phrase from any sql injections
   $phrase = mysqli_real_escape_string($con, strip_tags(trim($_POST["phrase"])));
 
   if ($phrase != '') {
@@ -108,6 +111,7 @@ include 'header.php';
 </div><!-- end property listing header -->
 
 <div class="row">
+  <!-- to display messages if any and remove them -->
   <div class="col-md-12">
     <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
       <div class="alert alert-success">
@@ -176,6 +180,7 @@ include 'header.php';
 
 <?php
 
+//select from table including the phrase if set
 $sql = "SELECT * FROM tbl_prop ".$_SESSION['sphrase'];
 $rs_result = mysqli_query($con, $sql); 
 $total_records = mysqli_num_rows($rs_result);  

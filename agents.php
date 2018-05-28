@@ -4,19 +4,23 @@ include 'functions.php';
 //pagination variables
 $num_rec_per_page=8;
 
+//if the page number exists, set it to page variable
 if (isset($_GET["page"])) {
 
   $page  = $_GET["page"];
 } else {
-
+  //else set it to 1
   $page=1;
 }
 
+//set where to start when using the limit in sql
 $start_from = ($page-1) * $num_rec_per_page;
 
+//default sql statement
 $sql = "SELECT * FROM tbl_user";
 $res = mysqli_query($con, $sql);
 
+//variable to display the records found
 $num = 0;
 $num = mysqli_num_rows($res);
 
@@ -34,6 +38,7 @@ include 'header.php';
 
 <section class="module">
   <div class="container">
+    <!-- Display all errors and successes-->
     <div class="col-md-12">
       <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
         <div class="alert alert-success">
@@ -69,7 +74,10 @@ include 'header.php';
  <div class="row">
   <?php
 
+  //Check if the statement has any data
   if (mysqli_num_rows($res) > 0) {
+
+    //while there is data display it
     while ($row = mysqli_fetch_assoc($res)) {
 
       echo '
@@ -99,6 +107,8 @@ include 'header.php';
       </div>';
     }
   } else {
+
+    //else display alert message
     echo '
     <div class="alert alert-info">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -107,28 +117,32 @@ include 'header.php';
   }
   ?>  
 
-<?php
+  <?php
 
-$sql = "SELECT * FROM tbl_user ";
-$rs_result = mysqli_query($con, $sql); 
-$total_records = mysqli_num_rows($rs_result);  
-$total_pages = ceil($total_records / $num_rec_per_page);
+  //sql statement to be executed
+  $sql = "SELECT * FROM tbl_user ";
+  $rs_result = mysqli_query($con, $sql); 
+  //number of records found
+  $total_records = mysqli_num_rows($rs_result);
+  //total records divided by the number of records per page gives you total pages
+  $total_pages = ceil($total_records / $num_rec_per_page);
 
-if ($total_pages == 0) {
-  $total_pages = 1;
-}
+  if ($total_pages == 0) {
+    $total_pages = 1;
+  }
 
-echo '
-<div class="pagination">
-<div class="center">
-<ul>
-<li><a href="?page=1" class="button small grey"><i class="fa fa-angle-left"></i></a></li>'; 
+  //display paginatio
+  echo '
+  <div class="pagination">
+  <div class="center">
+  <ul>
+  <li><a href="?page=1" class="button small grey"><i class="fa fa-angle-left"></i></a></li>'; 
 
-if ($page < 4) {
- for ($i=1; $i<$page; $i++) {
-   echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
- };
-} else {
+  if ($page < 4) {
+   for ($i=1; $i<$page; $i++) {
+     echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
+   };
+ } else {
   for ($i=($page-3); $i<$page; $i++) {
     echo '<li><a href="?page='.$i.'" class="button small grey">'.$i.'</a></li>';
   };

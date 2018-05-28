@@ -1,14 +1,17 @@
 <?php
-
+//include functions script
 include 'functions.php';
 
+//if user not logged in redirect to login page
 if(isset($_SESSION['user_id']) == '' ) {
 	$_SESSION['failure'] = 'Please login to view page.';
 	header("location:login.php");
 }
 
+//if post submit is set do the following
 if (isset($_POST['submit'])) {
 
+	//sanitize the data sent via post
 	$fname = mysqli_real_escape_string($con, strip_tags(trim($_POST["fname"])));
 	$lname = mysqli_real_escape_string($con, strip_tags(trim($_POST["lname"])));
 	$email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
@@ -21,15 +24,19 @@ if (isset($_POST['submit'])) {
 	$twitter = mysqli_real_escape_string($con, strip_tags(trim($_POST["twitter"])));
 	$linkedin = mysqli_real_escape_string($con, strip_tags(trim($_POST["linkedin"])));
 
+	//check if the required fields contain data
 	if ($fname != '' && $lname != '' && $email != '' && $phone != '' && $bio != '' && $facebook != '' && $twitter != '' && $linkedin != '' && $pass1 != '' && $pass2 != '' && $pass3 != '') {
 
+		//check the email and password combination
 		$sql = "SELECT * FROM tbl_user WHERE email='".$email."' AND password='".$pass1."'";
 		$res = mysqli_query($con, $sql);
 
 		if (mysqli_num_rows($res) > 0) {
 
+			//if true, compare the new passwords
 			if ($pass2 == $pass3) {
 
+				//if true then update the table and log the user out
 				$sql = "UPDATE `tbl_user` SET `fname`='".$fname."', `lname`='".$lname."', `email`='".$email."', `phone`='".$phone."', `bio`='".$bio."', `facebook`='".$facebook."', `twitter`='".$twitter."', `linkedin`='".$linkedin."', `password`='".$pass2."' WHERE id = '".$_SESSION['user_id']."'";
 				mysqli_query($con, $sql);
 				$_SESSION['success'] = 'Your details have been successfully updated, please log in.';

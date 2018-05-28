@@ -1,8 +1,11 @@
 <?php 
+//include functions script
 include 'functions.php';
 
+//check if there is a post called submit
 if (isset($_POST['submit'])) {
 
+  //sanitize variables and remove any unwanted data
   $fname = mysqli_real_escape_string($con, strip_tags(trim($_POST["fname"])));
   $lname = mysqli_real_escape_string($con, strip_tags(trim($_POST["lname"])));
   $email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
@@ -10,23 +13,26 @@ if (isset($_POST['submit'])) {
   $phone = mysqli_real_escape_string($con, strip_tags(trim($_POST["phone"])));
   $subject = mysqli_real_escape_string($con, strip_tags(trim($_POST["subject"])));
 
+  //check if the required variables are not emplty
   if ($fname != '' && $lname != '' && $email != '' && $message != '') {
 
+    //email the information
     $ourEmail = "support@".$siteaddress;
     $message .= "\n\nContact Number: ".$phone;
     $headers = "From: ".$email."" . "\r\n" .
     "CC: ".$email;
 
+    //send the email
     mail($ourEmail,$subject,$message,$headers);
 
   } else {
+    //display error
     $_SESSION['failure'] = 'Please fill in all fields';
   }
 }
 
 include 'header.php';
 ?>
-
 
 <section class="subheader">
   <div class="container">
@@ -76,18 +82,30 @@ include 'header.php';
         </div>
       </div>
     </div><!-- end row -->
-
   </div>
 </section>
-
 
 <section class="module">
   <div class="container">
 
     <div class="row">
-
       <div class="col-lg-8 col-md-8">
+        <!-- Display all errors and successes-->
+        <div class="col-md-12">
+          <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
+            <div class="alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+          <?php } ?>
 
+          <?php if(isset($_SESSION['failure']) && $_SESSION['failure'] != '') { ?>
+            <div class="alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php echo $_SESSION['failure']; unset($_SESSION['failure']); ?>
+            </div>
+          <?php } ?>
+        </div>
         <div class="comment-form">
           <h4><span>Quick Contact</span> <img src="images/divider-half.png" alt="" /></h4>
           <p><b>Fill out the form below.</b></p>
@@ -137,18 +155,13 @@ include 'header.php';
         </div>
       </form>
     </div>
-
     <div class="divider"></div>
   </div>
-
   <div class="col-lg-4 col-md-4 sidebar">
-
+    <!--include the side bar -->
     <?php include 'sidebar.php'; ?>
-
   </div>
-
 </div><!-- end row -->
-
 </div><!-- end container -->
 </section>
 

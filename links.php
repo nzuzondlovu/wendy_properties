@@ -1,6 +1,7 @@
 <div class="col-lg-3 col-md-3 sidebar-left">
 	<div class="widget member-card">
 		<div class="member-card-header">
+			<!--use session to display the user details-->
 			<a href="#" class="member-card-avatar"><img src="<?php echo $_SESSION['image']; ?>" alt="" /></a>
 			<h3><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?></h3>
 			<p><i class="fa fa-envelope icon"></i><?php echo $_SESSION['email']; ?></p>

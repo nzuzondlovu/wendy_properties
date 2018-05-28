@@ -1,15 +1,19 @@
 <?php 
+//include functions script for db connection
 include 'functions.php';
 
+//Get id from the url and sanitize it then run sql statement
 $id = mysqli_real_escape_string($con, strip_tags(trim($_GET["id"])));
 $sql = "SELECT * FROM tbl_user WHERE id=".$id."";
 $res = mysqli_query($con, $sql);
 
 if (mysqli_num_rows($res) > 0) {
 	
+	//Fetch data from the database
 	$row = mysqli_fetch_assoc($res);
 
 } else {
+	//If the requested agent does not exist, return to the agents page
 	header('Location: agents.php');
 }
 
@@ -36,6 +40,7 @@ include 'header.php';
 			</a>
 			<div class="agent-content">
 				<div class="agent-details">
+					<!--Display the agents details using the row array-->
 					<h4><a href="#"><?php echo $row['fname'].' '.$row['lname']; ?></a></h4>
 					<p><i class="fa fa-tag icon"></i>Title: <span>Selling Agent</span></p>
 					<p><i class="fa fa-envelope icon"></i>Email: <span><?php echo $row['email']; ?></span></p>
@@ -112,10 +117,14 @@ include 'header.php';
 					<div class="row">
 						<?php
 
+						//Select property associated to the client from the property table
 						$sql = "SELECT * FROM `tbl_prop` WHERE `agent`='".$id."'";
 						$res = mysqli_query($con, $sql);
 
+						//if there are properties run following code
 						if (mysqli_num_rows($res) > 0) {
+
+							//While there are properties display them
 							while ($row = mysqli_fetch_assoc($res)) {
 
 								echo '
@@ -154,6 +163,7 @@ include 'header.php';
 								</div>';
 							}
 						} else {
+							//else if there is no data, display alert
 							echo '
 							<div class="alert alert-info">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -163,27 +173,11 @@ include 'header.php';
 						?> 
 
 					</div><!-- end row -->
-
-					<div class="pagination">
-						<div class="center">
-							<ul>
-								<li><a href="#" class="button small grey"><i class="fa fa-angle-left"></i></a></li>
-								<li class="current"><a href="#" class="button small grey">1</a></li>
-								<li><a href="#" class="button small grey">2</a></li>
-								<li><a href="#" class="button small grey">3</a></li>
-								<li><a href="#" class="button small grey"><i class="fa fa-angle-right"></i></a></li>
-							</ul>
-						</div>
-						<div class="clear"></div>
-					</div>
-					
 				</div><!-- end agent properties -->
-			</div><!-- end col -->
-			
+			</div><!-- end col -->			
 			<div class="col-lg-3 col-md-3">
 				<?php include 'sidebar.php'; ?>				
-			</div><!-- end col -->
-			
+			</div><!-- end col -->			
 		</div><!-- end row -->
 	</div><!-- end container -->
 </section>

@@ -1,12 +1,14 @@
 <?php
-
+//include fuctions script
 include 'functions.php';
 
+//check if user logged in, chcek if session user id is set
 if(isset($_SESSION['user_id']) == '' ) {
 	$_SESSION['failure'] = 'Please login to view page.';
 	header("location:login.php");
 }
 
+//check if the delete variable is set, delete if set
 if(isset($_GET['del']) && $_GET['del'] != '') {
 	$del = mysqli_real_escape_string($con, strip_tags(trim($_GET['del'])));
 	$sql = "DELETE FROM tbl_prop WHERE id='".$del."'";
@@ -35,6 +37,7 @@ include 'header.php';
 		<div class="row">
 			<?php include 'links.php'; ?>
 			<div class="col-lg-9 col-md-9">
+				<!-- Display all errors and successes-->
 				<div class="col-md-12">
 					<?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
 						<div class="alert alert-success">
@@ -52,10 +55,13 @@ include 'header.php';
 				</div>
 				<?php
 
+				//sql statement to select all properties
 				$sql = "SELECT * FROM tbl_prop";
 				$res = mysqli_query($con, $sql);
 
 				if (mysqli_num_rows($res) > 0) {
+
+					//if the above is true display the following table
 					echo '
 					<table class="my-properties-list" id="dataTable">
 					<tr>
@@ -67,7 +73,7 @@ include 'header.php';
 					</tr>';
 					while ($row = mysqli_fetch_assoc($res)) {
 
-
+						//per row display the following information while data exist
 						echo '
 						<tr>
 						<td class="property-img"><a href="property.php/?id='.$row['id'].'"><img src="'.$row['image'].'" alt="" /></a></td>
@@ -86,6 +92,8 @@ include 'header.php';
 						}echo '
 						</table>';
 					} else {
+
+						//if there is no data display error information
 						echo '<div class="alert alert-warning">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<strong>No Properties found.</strong>
@@ -95,15 +103,15 @@ include 'header.php';
 					?>
 				</div><!-- end col -->
 			</div><!-- end row -->
-		</div>
-	</div><!-- end container -->
-</section>
+		</div><!-- end container -->
+	</section>
 
-<?php 
-include 'footer.php';
-?>
-<script>
-	$(document).ready(function(){
-		$('#dataTable').DataTable();
-	});
-</script>
+	<?php 
+	include 'footer.php';
+	?>
+	<!--connect table to datatables plugin-->
+	<script>
+		$(document).ready(function(){
+			$('#dataTable').DataTable();
+		});
+	</script>

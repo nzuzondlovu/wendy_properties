@@ -1,6 +1,8 @@
 <?php
+//include functions script
 include 'functions.php'; 
 
+//include header script
 include 'header.php';
 ?>
 
@@ -16,12 +18,15 @@ include 'header.php';
     <div class="slider slider-simple slider-advanced">
       <?php
 
+      //select all from property table but limit to 2 rows
       $sql = "SELECT * FROM tbl_prop LIMIT 2";
       $res = mysqli_query($con, $sql);
 
       if (mysqli_num_rows($res) > 0) {
+
         while ($row = mysqli_fetch_assoc($res)) {
 
+          //while data is available display the following
           echo '
           <div class="slide">
           <div class="img-overlay black"></div>
@@ -47,6 +52,8 @@ include 'header.php';
           </div>';
         }
       } else {
+
+        //if no data exist display the following message
         echo '
         <div class="alert alert-info">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -206,12 +213,16 @@ include 'header.php';
     <div class="slider slider-featured">
       <?php
 
+      //select only 10 properties
       $sql = "SELECT * FROM tbl_prop LIMIT 10";
       $res = mysqli_query($con, $sql);
 
       if (mysqli_num_rows($res) > 0) {
+
+        //if data exists proceed to the while loop
         while ($row = mysqli_fetch_assoc($res)) {
 
+          //while there is data display the following
           echo '
           <div class="property property-hidden-content slide">
           <a href="#" class="property-content">
@@ -238,6 +249,8 @@ include 'header.php';
           </div>';
         }
       } else {
+
+        //else if there is no data display the following message
         echo '
         <div class="alert alert-info">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -261,12 +274,16 @@ include 'header.php';
     <div class="row">
       <?php
 
+      //display only 3 properties
       $sql = "SELECT * FROM tbl_prop LIMIT 3";
       $res = mysqli_query($con, $sql);
 
       if (mysqli_num_rows($res) > 0) {
+
+        //if data then run while
         while ($row = mysqli_fetch_assoc($res)) {
 
+          //while there is data, run while
           echo '
           <div class="col-lg-4 col-md-4">
           <div class="property shadow-hover">
@@ -303,6 +320,8 @@ include 'header.php';
           </div>';
         }
       } else {
+
+        //when no data display message
         echo '
         <div class="alert alert-info">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -329,10 +348,12 @@ include 'header.php';
     <div class="row">
       <?php
 
+      //sql statement to select 3 users
       $sql = "SELECT * FROM tbl_user LIMIT 3";
       $res = mysqli_query($con, $sql);
 
       if (mysqli_num_rows($res) > 0) {
+        
         while ($row = mysqli_fetch_assoc($res)) {
 
           echo '

@@ -6,7 +6,8 @@
   <meta name="author" content="Rype Creative [Chris Gipple]">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $sitename; ?> | A real estate theme</title>
+  <!--Display site name-->
+  <title><?php if(isset($sitename)){echo $sitename;} ?> | A real estate company</title>
 
   <!-- CSS file links -->
   <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -147,11 +148,8 @@
                 <li><a href="contact.php">Contact</a></li>
               </ul>
               <div class="clear"></div>
-
             </div>
-
           </div><!-- end main menu wrap -->
         </div><!-- end navbar collaspe -->
-
       </div><!-- end container -->
     </header>

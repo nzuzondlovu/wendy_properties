@@ -1,7 +1,8 @@
 <?php
-
+//include functions script for db connection
 include 'functions.php';
 
+//if user not logged in they are redirected to login
 if(isset($_SESSION['user_id']) == '' ) {
   $_SESSION['failure'] = 'Please login to view page.';
   header("location:login.php");
@@ -9,7 +10,6 @@ if(isset($_SESSION['user_id']) == '' ) {
 
 include 'header.php';
 ?>
-
 
 <section class="subheader">
   <div class="container">
@@ -24,6 +24,7 @@ include 'header.php';
 
     <div class="row">
       <div class="col-lg-10 col-lg-offset-1">
+        <!-- Display all errors and successes-->
         <div class="col-md-12">
           <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
             <div class="alert alert-success">
@@ -265,6 +266,7 @@ include 'header.php';
               <label for="agent">Select Agent</label>
               <select name="agent" class="border">
                 <option value="">Select Agent...</option>
+                <!-- Get agents from the user table-->
                 <?php
                 $sql = "SELECT * FROM tbl_user ORDER BY fname ASC";
                 $res = mysqli_query($con, $sql);
@@ -290,25 +292,6 @@ include 'header.php';
 
   </div><!-- end container -->
 </section>
-
-<section class="module cta newsletter">
-  <div class="container">
-   <div class="row">
-    <div class="col-lg-7 col-md-7">
-     <h3>Sign up for our <strong>newsletter.</strong></h3>
-     <p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-   </div>
-   <div class="col-lg-5 col-md-5">
-     <form method="post" id="newsletter-form" class="newsletter-form">
-      <input type="email" placeholder="Your email..." />
-      <button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-    </form>
-  </div>
-</div><!-- end row -->
-</div><!-- end container -->
-</section>
-
-
 
 <?php 
 include 'footer.php';

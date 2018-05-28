@@ -1,21 +1,24 @@
 <?php
+//include functions script
 include 'functions.php';
-?>
 
-<?php
-
+//check if submit is set
 if (isset($_POST['submit'])) {
 
+  //sanitize the data
   $email = mysqli_real_escape_string($con, strip_tags(trim($_POST["email"])));
   $pass1 = md5(mysqli_real_escape_string($con, strip_tags(trim($_POST["pass1"]))));
 
+  //check if the  variables have data
   if ($email != '' && $pass1 != '') {
 
+    //sql statement to check the table for the email and pass combination
     $sql = "SELECT * FROM tbl_user WHERE email='".$email."' AND password='".$pass1."'";
     $res = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($res) > 0) {
 
+      //if true then set the session variables
       $user_details = mysqli_fetch_assoc($res);
       $_SESSION['user_id'] = $user_details['id'];
       $_SESSION['fname'] = $user_details['fname'];
@@ -28,15 +31,17 @@ if (isset($_POST['submit'])) {
       $_SESSION['twitter'] = $user_details['twitter'];
       $_SESSION['linkedin'] = $user_details['linkedin'];
 
-
+      //upon completion redirect the user to the dashboard
       $_SESSION['success'] = 'You have been logged in succesfully.';
       header("location:dashboard.php");
 
     } else {
+      //if details are wrong or dont exist destroy session
       session_destroy();
       $_SESSION['failure'] = '<strong>Invalid login credentials.</strong> Please try submitting again.';
     }    
   } else {
+    //echo error message
     $_SESSION['failure'] = 'Please fill in all fields.';
   }
 }
@@ -63,6 +68,7 @@ include 'header.php';
     <div class="row">
       <div class="col-lg-4 col-lg-offset-4"> 
         <p>Don't have an account? <strong><a href="register.php">Register here.</a></strong></p> 
+        <!-- used to display then unset the sessions -->
         <div class="col-md-12">
           <?php if(isset($_SESSION['success']) && $_SESSION['success'] != '') { ?>
             <div class="alert alert-success">
@@ -98,28 +104,8 @@ include 'header.php';
         </form>
       </div>
     </div><!-- end row -->
-
   </div>
 </section>
-
-<section class="module cta newsletter">
-  <div class="container">
-   <div class="row">
-    <div class="col-lg-7 col-md-7">
-     <h3>Sign up for our <strong>newsletter.</strong></h3>
-     <p>Lorem molestie odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-   </div>
-   <div class="col-lg-5 col-md-5">
-     <form method="post" id="newsletter-form" class="newsletter-form">
-      <input type="email" placeholder="Your email..." />
-      <button type="submit" form="newsletter-form"><i class="fa fa-send"></i></button>
-    </form>
-  </div>
-</div><!-- end row -->
-</div><!-- end container -->
-</section>
-
-
 
 <?php 
 include 'footer.php';

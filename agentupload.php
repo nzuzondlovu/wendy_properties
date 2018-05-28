@@ -1,6 +1,8 @@
 <?php
+//include functions script
 include 'functions.php';
 
+//upload variables, sanitized to avoid sql injections
 $target_dir = "uploads/agents/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -17,6 +19,7 @@ $facebook = mysqli_real_escape_string($con, strip_tags(trim($_POST["facebook"]))
 $twitter = mysqli_real_escape_string($con, strip_tags(trim($_POST["twitter"])));
 $linkedin = mysqli_real_escape_string($con, strip_tags(trim($_POST["linkedin"])));
 
+//check if they contain information
 if ($fname != '' && $lname != '' && $email != '' && $phone != '' && $pass1 != '' && $pass2 != '') {
 
 // Check if image file is a actual image or fake image
@@ -69,9 +72,12 @@ if ($fname != '' && $lname != '' && $email != '' && $phone != '' && $pass1 != ''
     $_SESSION['failure'] .= 'Please fill in all fields.';
 }
 
+//upon failure return to the agent page
 if ($_SESSION['failure']) {
     header('Location: addagent.php');
 } else {
+
+    //upon success go to agents pages
     header('Location: agents.php');
 }
 
